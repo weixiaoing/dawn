@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import BlogList from "./_components/BlogList";
 
@@ -17,10 +15,10 @@ export default function Home() {
             className="rounded-full"
           />
         </div>
-        <h1 className="text-3xl flex font-black">
+        <h1 className=" invert text-3xl flex font-black">
           你好!<div className="animate-shake-hand origin-bottom-right">👋</div>
         </h1>
-        <p>{description}</p>
+        <p className="invert">{description}</p>
         <BlogList arr={arr} />
         <Link href={"/blog"} className="text-gray-400 hover:text-gray-700">
           more...
