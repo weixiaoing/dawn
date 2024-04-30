@@ -3,15 +3,43 @@ import { notion } from "../utils";
 export async function GET() {
   let res = await notion.databases.query({
     database_id: process.env.NOTION_ID!,
+    filter: {
+      and: [
+        {
+          property: "status",
+          select: {
+            equals: "Published",
+          },
+        },
+        {
+          property: "type",
+          select: {
+            equals: "Post",
+          },
+        },
+      ],
+    },
+    sorts: [
+      {
+        property: "date",
+        direction: "descending",
+      },
+    ],
   });
-  try {
-    const data = res.results.filter((item: any) => {
-      // console.log(item.properties.status.select.name);
+  const data = (res.results as any[]).map((item) => {
+    return {
+      id: item.id,
+      title: item?.properties.title.title[0].plain_text,
+    };
+  });
+  return Response.json({ data });
+  // try {
+  //   const data = res.results.filter((item: any) => {
+  //     // console.log(item.properties.status.select.name);
 
-      return item.properties.status.select?.name === "Published";
-    });
-    return Response.json({ data });
-  } catch (e) {
-    console.log(e);
-  }
+  //     return item.properties.status.select?.name === "Published";
+  //   });
+  // } catch (e) {
+  //   console.log(e);
+  // }
 }
