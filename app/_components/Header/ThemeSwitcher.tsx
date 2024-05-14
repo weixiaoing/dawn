@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import Moon from "../../../public/Header/moon.svg";
 import Sun from "../../../public/Header/sun.svg";
 import { HoverTag } from "../HoverTag";
 
@@ -54,9 +55,7 @@ export default function ThemeSwitcher() {
       ref={ref}
     >
       {" "}
-      <HoverTag>
-        <Sun />
-      </HoverTag>
+      <HoverTag>{isDarkMode ? <Moon /> : <Sun />}</HoverTag>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default async function Article({
 
   return (
     <div style={{ maxWidth: 768 }}>
-      <NotionRenderer blockMap={data} />
+      {data && <NotionRenderer blockMap={data} />}
     </div>
   );
 }
