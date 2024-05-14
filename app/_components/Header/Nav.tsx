@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
+import GitHub from "../../../public/Header/RiGithubLine.svg";
 import { HoverTag } from "../HoverTag";
-
+import ThemeSwitcher from "./ThemeSwitcher";
 export function Nav() {
   return (
     <nav className="p-[32px] max-w-[1024px] mx-auto">
@@ -28,19 +28,17 @@ export function Nav() {
           </Link>
         </li>
         <li>
+          <ThemeSwitcher />
+        </li>
+        <li>
           <a
             href={"https://github.com/weixiaoing"}
             target="_blank"
             rel="noopener noreferrer"
+            title="Dawn's GitHub"
           >
             <HoverTag>
-              <Image
-                src="/Header/RiGithubLine.svg"
-                width={24}
-                height={24}
-                alt="Dawn"
-                title="Dawn"
-              ></Image>
+              <GitHub width={24} height={24} alt="Dawn" title="Dawn"></GitHub>
             </HoverTag>
           </a>
         </li>

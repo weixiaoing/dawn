@@ -1,5 +1,9 @@
+import BlogList from "./_components/BlogList";
+import "./page.module.css";
+
 const description = "这里是一只正在学习前端,渴望学会全栈,梦想做开源的未晓";
-export default function Home() {
+
+export default async function Home() {
   return (
     <>
       <main className="pt-40 space-y-5">
@@ -11,14 +15,19 @@ export default function Home() {
             className="rounded-full"
           />
         </div>
-        <h1 className=" invert text-3xl flex font-black">
-          你好!<div className="animate-shake-hand origin-bottom-right">👋</div>
+        <h1 className="text-3xl flex font-black ">
+          你好
+          <div className="animate-shake-hand origin-bottom-right">👋</div>
         </h1>
-        <p className="invert">{description}</p>
-        {/* <BlogList arr={arr} />
-        <Link href={"/blog"} className="text-gray-400 hover:text-gray-700">
-          more...
-        </Link> */}
+        <p>{description}</p>
+        <h1>
+          <span className="wave">H</span>
+          <span className="wave">e</span>
+          <span className="wave">l</span>
+          <span className="wave">l</span>
+          <span className="wave">o</span>
+        </h1>
+        <BlogList></BlogList>
       </main>
     </>
   );

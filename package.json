@@ -11,11 +11,20 @@
   "dependencies": {
     "@nextui-org/react": "^2.3.6",
     "@notionhq/client": "^2.2.15",
+    "@radix-ui/react-switch": "^1.0.3",
+    "@svgr/webpack": "^8.1.0",
+    "@types/dom-view-transitions": "^1.0.4",
+    "clsx": "^2.1.1",
     "framer-motion": "^11.1.7",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
+    "notion-client": "^6.16.0",
+    "notion-types": "^6.16.0",
+    "notion-utils": "^6.16.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-notion": "^0.10.0",
+    "react-notion-x": "^6.16.0"
   },
   "devDependencies": {
     "@types/node": "^20",

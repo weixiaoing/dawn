@@ -1,12 +1,24 @@
-import { notion } from "@/app/utils";
+import "prismjs/themes/prism-tomorrow.css";
+import "react-notion/src/styles.css";
+
+import { NotionRenderer } from "react-notion";
 
 export default async function Article({
   params,
 }: {
   params: { slug: string };
 }) {
-  let res = await notion.blocks.children.list({ block_id: params.slug });
-  const data = res.results;
+  const data = await fetch(
+    `https://notion-api.splitbee.io/v1/page/${params.slug}`
+  )
+    .then((res) => res.json())
+    .catch((e) => {
+      console.log(e);
+    });
 
-  return <div>文章内容</div>;
+  return (
+    <div style={{ maxWidth: 768 }}>
+      <NotionRenderer blockMap={data} />
+    </div>
+  );
 }

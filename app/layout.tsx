@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 import { Header } from "./_components/Header";
 import "./globals.css";
-import { Providers } from "./provier";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto_mono = Roboto_Mono({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Dawnot Blog",
@@ -18,13 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Providers>
-          <div className="min-h-screen ">
-            <Header></Header>
-            <main className="max-w-2xl p-[20px] mx-auto "> {children}</main>
-          </div>
-        </Providers>
+      <body className={roboto_mono.className}>
+        <div className="min-h-screen dark:text-white ">
+          <Header></Header>
+          <main className="max-w-2xl p-[20px] mx-auto "> {children}</main>
+        </div>
       </body>
     </html>
   );
