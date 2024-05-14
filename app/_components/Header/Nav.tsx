@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import GitHub from "../../../public/Header/RiGithubLine.svg";
 import { HoverTag } from "../HoverTag";
@@ -8,7 +9,9 @@ export function Nav() {
       <ul className="flex space-x-5 ">
         <div className="size-10 relative top-[-10px] cursor-auto ">
           <Link href={"/"}>
-            <img
+            <Image
+              width={40}
+              height={40}
               src="https://avatars.githubusercontent.com/u/93917549?v=4"
               alt="Dawn"
               title="主页"

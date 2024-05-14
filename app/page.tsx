@@ -1,3 +1,4 @@
+import Image from "next/image";
 import BlogList from "./_components/BlogList";
 import "./page.module.css";
 
@@ -7,12 +8,14 @@ export default async function Home() {
   return (
     <>
       <main className="pt-40 space-y-5">
-        <div className="size-24 animate-bounce mx-auto ">
-          <img
+        <div className=" animate-bounce mx-auto ">
+          <Image
+            width={100}
+            height={100}
             src="https://avatars.githubusercontent.com/u/93917549?v=4"
             alt="Dawn"
             title="Dawn"
-            className="rounded-full"
+            className="rounded-full mx-auto"
           />
         </div>
         <h1 className="text-3xl flex font-black ">
