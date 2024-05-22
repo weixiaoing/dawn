@@ -4,11 +4,11 @@ import { HoverTag } from "../HoverTag";
 import { Skeleton } from "../UI/Skeleton";
 
 export default async function BlogList() {
-  const arr = await getBlogList();
+  const arr: any[] | any = await getBlogList();
   return (
     <>
       <ul className="space-y-2">
-        {arr.map((item) => {
+        {arr.map((item: any) => {
           return (
             <li key={item.id}>
               <Link href={`/blog/${item.id}`}>

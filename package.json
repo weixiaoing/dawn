@@ -14,6 +14,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@svgr/webpack": "^8.1.0",
     "@types/dom-view-transitions": "^1.0.4",
+    "@types/socket.io-client": "^3.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.1.7",
     "next": "14.2.3",
@@ -23,8 +24,10 @@
     "notion-utils": "^6.16.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.2.1",
     "react-notion": "^0.10.0",
-    "react-notion-x": "^6.16.0"
+    "react-notion-x": "^6.16.0",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@types/node": "^20",

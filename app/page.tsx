@@ -30,7 +30,8 @@ export default async function Home() {
           <span className="wave">l</span>
           <span className="wave">o</span>
         </h1>
-        <BlogList></BlogList>
+
+        <BlogList />
       </main>
     </>
   );

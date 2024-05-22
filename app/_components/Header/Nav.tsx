@@ -26,8 +26,18 @@ export function Nav() {
           </Link>
         </li>
         <li>
-          <Link href={"/"}>
+          <Link href={"/project"}>
             <HoverTag>Project</HoverTag>
+          </Link>
+        </li>
+        <li>
+          <Link href={"/chat"}>
+            <HoverTag>Chat</HoverTag>
+          </Link>
+        </li>
+        <li>
+          <Link href={"/project/video"}>
+            <HoverTag>Video</HoverTag>
           </Link>
         </li>
         <li>
