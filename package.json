@@ -16,6 +16,7 @@
     "@types/dom-view-transitions": "^1.0.4",
     "@types/socket.io-client": "^3.0.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.11",
     "framer-motion": "^11.1.7",
     "next": "14.2.3",
     "next-themes": "^0.3.0",

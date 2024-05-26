@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-
+let count = 0;
 export default function useSocket({
   url = "ws://localhost:4000",
   room = "Home",
@@ -10,6 +10,7 @@ export default function useSocket({
   useEffect(() => {
     const newSocket = io(url);
     setSocket(newSocket);
+    console.log(++count);
 
     newSocket.on("connect", () => {
       console.log(newSocket.id, "连接成功");
@@ -28,7 +29,6 @@ export default function useSocket({
       newSocket.disconnect();
     };
   }, [url, room]);
-  // useEffect(() => {}, [room, socket]);
   return {
     socket,
   };

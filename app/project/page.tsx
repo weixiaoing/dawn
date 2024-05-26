@@ -1,6 +1,7 @@
 "use client";
 
 import useNotification from "../_components/UI/notification/hooks";
+import Video from "../_components/video";
 
 export default function Project() {
   const { triggerNotification, NotificationComponent } =
@@ -32,6 +33,7 @@ export default function Project() {
       >
         success
       </button>
+      <Video></Video>
     </div>
   );
 }
