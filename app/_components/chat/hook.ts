@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 let count = 0;
 export default function useSocket({
-  url = "ws://localhost:4000",
+  url = process.env.NEXT_PUBLIC_API_URL!,
   room = "Home",
 }) {
   const [socket, setSocket] = useState<Socket>();

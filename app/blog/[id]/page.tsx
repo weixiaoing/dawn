@@ -4,23 +4,21 @@ import "react-notion/src/styles.css";
 import Chat from "@/app/_components/chat";
 import { NotionRenderer } from "react-notion";
 
-export default async function Article({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function Article({ params }: { params: { id: string } }) {
+  // const data: any = await getPage(params.id).then((res) => res);
+
   const data = await fetch(
-    `https://notion-api.splitbee.io/v1/page/${params.slug}`
+    `https://notion-api.splitbee.io/v1/page/${params.id}`
   )
     .then((res) => res.json())
     .catch((e) => {
-      console.log(e);
+      return;
     });
 
   return (
     <div style={{ maxWidth: 768 }}>
       {data && <NotionRenderer blockMap={data} />}
-      <Chat room={params.slug}></Chat>
+      <Chat room={params.id}></Chat>
     </div>
   );
 }

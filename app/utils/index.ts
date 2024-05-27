@@ -1,5 +1,5 @@
 import { Client } from "@notionhq/client";
-
+import { NotionAPI } from "notion-client";
 const notion = new Client({ auth: process.env.NOTION_KEY });
 const notionNew = new Client();
 
@@ -43,9 +43,8 @@ const getBlogList = async () => {
 };
 
 const getPage = async (pageId: string) => {
-  const recordMap = await notion.databases.query({
-    database_id: pageId,
-  });
-  console.log(recordMap);
+  const recordMap = await new NotionAPI().getPage(pageId);
+  return recordMap;
 };
-export { getBlogList, notion };
+
+export { getBlogList, getPage, notion };
