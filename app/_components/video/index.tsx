@@ -15,6 +15,7 @@ export default function Video() {
   const pushStream = async (
     stream: MediaStream,
     socket: Socket,
+    peerStream: MediaStream,
     roomId = "Home"
   ) => {
     const peer = new RTCPeerConnection();
@@ -69,10 +70,8 @@ export default function Video() {
       peer.addIceCandidate(new RTCIceCandidate(candidate));
     });
     peer.ontrack = (e) => {
-      peerStream.current = new MediaStream();
-      peerStream.current.addTrack(e.track);
-      console.log("test", peerStream.current);
-      peerVideo.current!.srcObject = peerStream.current;
+      peerStream.addTrack(e.track);
+      peerVideo.current!.srcObject = peerStream;
     };
     return peer;
   };
@@ -87,7 +86,7 @@ export default function Video() {
         mySteamRef.current = stream;
         myVideo.current!.srcObject = stream;
         if (socket) {
-          pushStream(mySteamRef.current!, socket);
+          pushStream(mySteamRef.current!, socket, new MediaStream());
         }
       })
       .catch((error) => {
