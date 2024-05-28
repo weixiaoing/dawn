@@ -11,15 +11,17 @@ export default function Video() {
   const myVideo = useRef<HTMLVideoElement>(null);
   const peerVideo = useRef<HTMLVideoElement>(null);
   const mySteamRef = useRef<MediaStream>();
-  const [done, setDone] = useState(false);
-  const peerRef = useRef<RTCPeerConnection>(new RTCPeerConnection());
+
   const pushStream = async (
     stream: MediaStream,
     socket: Socket,
     roomId = "Home"
   ) => {
     const peer = new RTCPeerConnection();
+
     stream.getTracks().forEach((track) => {
+      console.log("track", track);
+
       peer.addTrack(track, stream);
     });
     const offer = await peer.createOffer();
@@ -69,8 +71,7 @@ export default function Video() {
     peer.ontrack = (e) => {
       peerStream.current = new MediaStream();
       peerStream.current.addTrack(e.track);
-      console.log("test", e.track);
-
+      console.log("test", peerStream.current);
       peerVideo.current!.srcObject = peerStream.current;
     };
     return peer;
