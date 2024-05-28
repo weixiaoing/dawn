@@ -19,7 +19,10 @@ export default function Video() {
     roomId = "Home"
   ) => {
     const peer = new RTCPeerConnection();
+
     stream.getTracks().forEach((track) => {
+      console.log("track", track);
+
       peer.addTrack(track, stream);
     });
     const offer = await peer.createOffer();
@@ -67,16 +70,15 @@ export default function Video() {
       peer.addIceCandidate(new RTCIceCandidate(candidate));
     });
     peer.ontrack = (e) => {
-      peerStream.current = new MediaStream();
-      peerStream.current.addTrack(e.track);
-      console.log("test", e.track);
-
-      peerVideo.current!.srcObject = peerStream.current;
+      peerStream.current!.addTrack(e.track);
+      console.log("test", peerStream.current);
+      peerVideo.current!.srcObject = peerStream.current!;
     };
     return peer;
   };
 
   useEffect(() => {
+    peerStream.current = new MediaStream();
     navigator.mediaDevices
       .getUserMedia({
         video: true,
