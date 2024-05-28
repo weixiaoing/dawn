@@ -11,8 +11,8 @@ export default function Video() {
   const myVideo = useRef<HTMLVideoElement>(null);
   const peerVideo = useRef<HTMLVideoElement>(null);
   const mySteamRef = useRef<MediaStream>();
-  // const [done, setDone] = useState(false);
-  // const peerRef = useRef<RTCPeerConnection>(new RTCPeerConnection());
+  const [done, setDone] = useState(false);
+  const peerRef = useRef<RTCPeerConnection>(new RTCPeerConnection());
   const pushStream = async (
     stream: MediaStream,
     socket: Socket,
