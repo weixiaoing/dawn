@@ -1,19 +1,14 @@
 "use client";
-import useMediaStream from "@/app/_hooks/useMedia";
-import { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
-let count = 0;
-export default function useSocket({
-  url = process.env.NEXT_PUBLIC_API_URL!,
-  room = "Home",
-}) {
-  const [socket, setSocket] = useState<Socket>();
 
+import { disconnect } from "process";
+import { useEffect, useRef, useState } from "react";
+import { io, Socket } from "socket.io-client";
+
+const useSocket = (url = process.env.NEXT_PUBLIC_API_URL!, room = "Home") => {
+  const socket = useRef<Socket>();
   useEffect(() => {
     const newSocket = io(url);
-    setSocket(newSocket);
-    console.log(++count);
-
+    socket.current = newSocket;
     newSocket.on("connect", () => {
       console.log(newSocket.id, "连接成功");
     });
@@ -27,12 +22,11 @@ export default function useSocket({
         console.log("重新连接中...");
       }
     });
+
     return () => {
       newSocket.disconnect();
     };
   }, [url, room]);
-  // useEffect(() => {}, [room, socket]);
-  return {
-    socket,
-  };
-}
+  return socket;
+};
+export default useSocket;

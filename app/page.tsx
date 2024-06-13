@@ -4,7 +4,7 @@ import "./page.module.css";
 
 const description = "这里是一只正在学习前端,渴望学会全栈,梦想做开源的未晓";
 
-export default async function Home() {
+export default  function Home() {
   return (
     <>
       <main className="pt-40 space-y-5">

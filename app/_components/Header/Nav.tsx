@@ -36,7 +36,7 @@ export function Nav() {
           </Link>
         </li>
         <li>
-          <Link href={"/project/video"}>
+          <Link href={"/video"}>
             <HoverTag>Video</HoverTag>
           </Link>
         </li>

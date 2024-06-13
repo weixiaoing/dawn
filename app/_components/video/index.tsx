@@ -2,102 +2,111 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
-import useSocket from "./hook";
+
+import useMediaStream from "@/app/_hooks/useMedia";
+import useSocket from "@/app/_hooks/useSocket";
 
 export default function Video() {
-  const { socket } = useSocket({});
-  const peerStream = useRef<MediaStream>();
+  const cache = useRef(false);
+  const socket = useSocket();
   const [errorSetting, setErrorSetting] = useState<string>("");
   const myVideo = useRef<HTMLVideoElement>(null);
   const peerVideo = useRef<HTMLVideoElement>(null);
-  const mySteamRef = useRef<MediaStream>();
 
-  const pushStream = async (
-    stream: MediaStream,
-    socket: Socket,
-    peerStream: MediaStream,
-    roomId = "Home"
-  ) => {
-    const peer = new RTCPeerConnection();
-
-    stream.getTracks().forEach((track) => {
-      console.log("track", track);
-
-      peer.addTrack(track, stream);
-    });
-    const offer = await peer.createOffer();
-    await peer.setLocalDescription(offer);
-    console.log("offer");
-    console.log("id", socket.id);
-
-    socket.emit("offer", {
-      sdp: offer.sdp,
-      myId: socket.id,
-      roomId,
-    });
-    socket.on("call", async ({ sdp }) => {
-      console.log("call", sdp);
-
-      await peer.setRemoteDescription({
-        type: "offer",
-        sdp,
-      });
-      peer.createAnswer().then(async (answer) => {
-        await peer.setLocalDescription(answer);
-        socket!.emit("answer", {
-          sdp: answer.sdp,
-          myId: socket!.id,
-          roomId: roomId,
-        });
-      });
-    });
-    socket.on("answer", ({ sdp }) => {
-      console.log("this is answer");
-
-      peer.setRemoteDescription({ type: "answer", sdp });
-    });
-    peer.onicecandidate = (e) => {
-      const candidate = e.candidate;
-      if (candidate) {
-        socket.emit("candidate", {
-          candidate,
-          myId: socket!.id,
-          roomId: "Home",
-        });
-      }
-    };
-    socket.on("candidate", ({ candidate }) => {
-      peer.addIceCandidate(new RTCIceCandidate(candidate));
-    });
-    peer.ontrack = (e) => {
-      peerStream.addTrack(e.track);
-      peerVideo.current!.srcObject = peerStream;
-    };
-    return peer;
-  };
+  const Stream = useMediaStream();
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({
-        video: true,
-        audio: true,
-      })
-      .then((stream) => {
-        mySteamRef.current = stream;
-        myVideo.current!.srcObject = stream;
-        if (socket) {
-          pushStream(mySteamRef.current!, socket, new MediaStream());
-        }
-      })
-      .catch((error) => {
-        setErrorSetting(error.message);
+    const pushStream = async (
+      stream: MediaStream,
+      socket: Socket,
+      roomId = "Home"
+    ) => {
+      const configuration = {
+        iceServers: [
+            {
+                urls: process.env.NEXT_PUBLIC_TURN_URL||'turn:dawnot.online:3478', // TURN服务器地址，可能包含端口号
+                username: 'username', // TURN服务器的用户名
+                credential: 'password' // TURN服务器的密码
+            }
+        ]
+    };
+      // const peer = new RTCPeerConnection(configuration);
+      const peer = new RTCPeerConnection();
+      const peerStream = new MediaStream();
+    // 添加各种本地流到peer连接上
+      stream.getTracks().forEach((track) => {
+        console.log("track", track);
+        peer.addTrack(track, stream);
       });
-  }, [socket]);
+    // 监听接收事件,将接收到的流添加到peerStream,每一个流会触发一次
+      peer.ontrack = (e) => {
+        peerStream.addTrack(e.track);
+      };
+      // 监听ice候选对象
+      peer.onicecandidate = (e) => {
+        const candidate = e.candidate;
+        if (candidate) {
+          socket.emit("candidate", {
+            candidate,
+            myId: socket!.id,
+            roomId: "Home",
+          });
+        }
+      };
+
+      // 创建offer,设置本地描述
+      const offer = await peer.createOffer();
+      await peer.setLocalDescription(offer);
+      // 发送offer到远端
+      socket.emit("offer", {
+        sdp: offer.sdp,
+        myId: socket.id,
+        roomId,
+      });
+      // 监听远端的offer
+      socket.on("call",  ({ sdp }) => {
+        console.log('test');
+        
+         peer
+          .setRemoteDescription({
+            type: "offer",
+            sdp,
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        peer.createAnswer().then( (answer) => {
+           peer.setLocalDescription(answer);
+          socket.emit("answer", {
+            sdp: answer.sdp,
+            myId: socket!.id,
+            roomId: roomId,
+          });
+        });
+      });
+      socket.on("answer",  ({ sdp }) => {
+         peer.setRemoteDescription({ type: "answer", sdp });
+      });
+
+      socket.on("candidate", ({ candidate }) => {
+        peer.addIceCandidate(new RTCIceCandidate(candidate));
+      });
+
+      return peerStream;
+    };
+    Stream && (myVideo.current!.srcObject = Stream);
+    const mountPeer = async () => {
+      peerVideo.current!.srcObject = await pushStream(Stream!, socket.current!);
+    };
+
+    Stream && socket.current && mountPeer();
+  }, [Stream, socket]);
 
   return (
     <div className="grid grid-cols-[3fr,1fr]">
       <div>
-        <h1>user</h1>
+        <h1 onClick={() =>{console.log(Stream)}
+        }>user</h1>
         <video autoPlay muted playsInline width={"500px"} ref={myVideo}></video>
       </div>
       <div>

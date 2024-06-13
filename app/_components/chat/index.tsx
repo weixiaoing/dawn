@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import useSocket from "./hook";
+import { Skeleton } from "../UI/Skeleton";
 
 export default function Chat({ room }: { room: string }) {
   const { socket } = useSocket({ room });
@@ -43,7 +44,6 @@ export default function Chat({ room }: { room: string }) {
 
   return (
     <div className="mx-auto">
-      {/* <h1 className="text-center">在线聊天室(beta)</h1> */}
       <div className="flex">
         {" "}
         <input
@@ -96,6 +96,7 @@ export default function Chat({ room }: { room: string }) {
               <h1>暂无聊天记录</h1>
             </li>
           )}
+          {SkeletonShow && <Skeleton />}
         </ul>
       </div>
     </div>
