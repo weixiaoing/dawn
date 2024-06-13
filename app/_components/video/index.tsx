@@ -30,8 +30,8 @@ export default function Video() {
             }
         ]
     };
-      // const peer = new RTCPeerConnection(configuration);
-      const peer = new RTCPeerConnection();
+      const peer = new RTCPeerConnection(configuration);
+      // const peer = new RTCPeerConnection();
       const peerStream = new MediaStream();
     // 添加各种本地流到peer连接上
       stream.getTracks().forEach((track) => {
