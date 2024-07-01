@@ -22,22 +22,22 @@ export default function Video() {
     ) => {
       const configuration = {
         iceServers: [
-            {
-                urls: process.env.NEXT_PUBLIC_TURN_URL||'turn:dawnot.online:3478', // TURN服务器地址，可能包含端口号
-                username: 'username', // TURN服务器的用户名
-                credential: 'password' // TURN服务器的密码
-            }
-        ]
-    };
+          {
+            urls: process.env.NEXT_PUBLIC_TURN_URL || "turn:dawnot.online:3478", // TURN服务器地址，可能包含端口号
+            username: "username", // TURN服务器的用户名
+            credential: "password", // TURN服务器的密码
+          },
+        ],
+      };
       const peer = new RTCPeerConnection(configuration);
       // const peer = new RTCPeerConnection();
       const peerStream = new MediaStream();
-    // 添加各种本地流到peer连接上
+      // 添加各种本地流到peer连接上
       stream.getTracks().forEach((track) => {
         console.log("track", track);
         peer.addTrack(track, stream);
       });
-    // 监听接收事件,将接收到的流添加到peerStream,每一个流会触发一次
+      // 监听接收事件,将接收到的流添加到peerStream,每一个流会触发一次
       peer.ontrack = (e) => {
         peerStream.addTrack(e.track);
       };
@@ -63,10 +63,10 @@ export default function Video() {
         roomId,
       });
       // 监听远端的offer
-      socket.on("call",  ({ sdp }) => {
-        console.log('test');
-        
-         peer
+      socket.on("call", ({ sdp }) => {
+        console.log("test");
+
+        peer
           .setRemoteDescription({
             type: "offer",
             sdp,
@@ -74,8 +74,8 @@ export default function Video() {
           .catch((err) => {
             console.log(err);
           });
-        peer.createAnswer().then( (answer) => {
-           peer.setLocalDescription(answer);
+        peer.createAnswer().then((answer) => {
+          peer.setLocalDescription(answer);
           socket.emit("answer", {
             sdp: answer.sdp,
             myId: socket!.id,
@@ -83,8 +83,8 @@ export default function Video() {
           });
         });
       });
-      socket.on("answer",  ({ sdp }) => {
-         peer.setRemoteDescription({ type: "answer", sdp });
+      socket.on("answer", ({ sdp }) => {
+        peer.setRemoteDescription({ type: "answer", sdp });
       });
 
       socket.on("candidate", ({ candidate }) => {
@@ -103,8 +103,8 @@ export default function Video() {
       socket.current?.off("call");
       socket.current?.off("answer");
       socket.current?.off("candidate");
-    }
-  }, [Stream, socket, socket.c]);
+    };
+  }, [Stream, socket, socket]);
 
   return (
     <div className="grid grid-cols-[3fr,1fr]">
