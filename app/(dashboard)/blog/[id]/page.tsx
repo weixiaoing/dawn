@@ -1,7 +1,7 @@
 import "prismjs/themes/prism-tomorrow.css";
 import "react-notion/src/styles.css";
 
-import Chat from "@/app/_components/chat";
+import Chat from "@/_components/chat";
 import { NotionRenderer } from "react-notion";
 
 export default async function Article({ params }: { params: { id: string } }) {
@@ -17,7 +17,7 @@ export default async function Article({ params }: { params: { id: string } }) {
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: 768 }}>
-      {data && <NotionRenderer  blockMap={data} />}
+      {data && <NotionRenderer blockMap={data} />}
       <Chat classname="mt-5" room={params.id}></Chat>
     </div>
   );

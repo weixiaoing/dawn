@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 
-import useMediaStream from "@/app/_hooks/useMedia";
-import useSocket from "@/app/_hooks/useSocket";
+import useMediaStream from "@/_hooks/useMedia";
+import useSocket from "@/_hooks/useSocket";
 
 export default function Video() {
   const cache = useRef(false);

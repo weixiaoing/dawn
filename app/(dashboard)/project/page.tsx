@@ -1,12 +1,11 @@
 "use client";
 
-import useNotification from "../_components/UI/notification/hooks";
-import FileUploader from "../_components/Upload";
-import Video from "../_components/video";
+import useNotification from "@/_components/UI/notification/hooks";
+import FileUploader from "@/_components/Upload";
+import Video from "@/_components/video";
 
 export default function Project() {
-  const { triggerNotification, NotificationComponent } =
-    useNotification("top");
+  const { triggerNotification, NotificationComponent } = useNotification("top");
   return (
     <div>
       {NotificationComponent}
@@ -16,7 +15,8 @@ export default function Project() {
         onClick={() =>
           triggerNotification({
             type: "error",
-            message: "errasdassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+            message:
+              "errasdassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
             onClose: () => {},
           })
         }

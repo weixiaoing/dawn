@@ -1,4 +1,4 @@
-import { getBlogList } from "@/app/utils";
+import { getBlogList } from "@/utils";
 import Link from "next/link";
 import { HoverTag } from "../HoverTag";
 import { Skeleton } from "../UI/Skeleton";

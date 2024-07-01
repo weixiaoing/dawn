@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BlogList from "./_components/BlogList";
+import BlogList from "../../_components/BlogList";
 import "./page.module.css";
 
 const description = "这里是一只正在学习前端,渴望学会全栈,梦想做开源的未晓";
