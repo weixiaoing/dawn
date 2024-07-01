@@ -5,8 +5,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import useSocket from "./hook";
 import { Skeleton } from "../UI/Skeleton";
+import clsx from "clsx";
 
-export default function Chat({ room }: { room: string }) {
+export default function Chat({ room, ...props }: { room: string, [key: string]: any }) {
   const { socket } = useSocket({ room });
   const [text, setText] = useState<string>("");
   const [list, setList] = useState<{ msg: string; timeAt: string }[]>([]);
@@ -43,7 +44,7 @@ export default function Chat({ room }: { room: string }) {
   };
 
   return (
-    <div className="mx-auto">
+    <div className={clsx("mx-auto", props?.className)}>
       <div className="flex">
         {" "}
         <input
@@ -96,7 +97,12 @@ export default function Chat({ room }: { room: string }) {
               <h1>暂无聊天记录</h1>
             </li>
           )}
-          {SkeletonShow && <Skeleton />}
+          {SkeletonShow && (
+            <>
+              <Skeleton className="rounded-full w-[60px] h-[60px] " />
+              <Skeleton className="w-[50%] h-5 " />
+            </>
+          )}
         </ul>
       </div>
     </div>

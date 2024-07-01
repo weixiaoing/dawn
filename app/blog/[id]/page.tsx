@@ -16,9 +16,9 @@ export default async function Article({ params }: { params: { id: string } }) {
     });
 
   return (
-    <div style={{ maxWidth: 768 }}>
-      {data && <NotionRenderer blockMap={data} />}
-      <Chat room={params.id}></Chat>
+    <div className="animate-fade-in" style={{ maxWidth: 768 }}>
+      {data && <NotionRenderer  blockMap={data} />}
+      <Chat classname="mt-5" room={params.id}></Chat>
     </div>
   );
 }

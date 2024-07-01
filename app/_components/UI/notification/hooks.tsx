@@ -1,36 +1,43 @@
 "use client";
 
 import clsx from "clsx";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useId, useRef, useState } from "react";
 import Notification, { NotificationType } from "./notification";
-
+let count = 0;
 const useNotification = (
   position:
     | "top-left"
     | "top-right"
     | "bottom-left"
-    | "bottom-right" = "top-right"
+    | "bottom-right"
+    |"top" = "top"
 ) => {
-  const timer = useRef<NodeJS.Timeout>();
-  const [notification, setNotification] = useState<NotificationType | null>();
+  
+  const [notification, setNotification] = useState<NotificationType[]>([]);
   const triggerNotification = useCallback((props: NotificationType) => {
-    clearTimeout(timer.current);
-    setNotification(props);
-    timer.current = setTimeout(() => {
-      setNotification(null);
-    }, 3000);
+    setNotification((pre)=>{
+      return [props,...pre ];
+    });
+    setTimeout(() => {
+      setNotification((pre)=>{
+        return pre.slice(0,pre.length-1)
+      });
+    }, 30000);
     return null;
   }, []);
-  const NotificationComponent = notification ? (
+  const NotificationComponent = notification?.length ? (
     <div
-      className={clsx("fixed", {
+      className={clsx("fixed inline-block", {
         "top-5 right-5": position === "top-right",
         "top-5 left-5": position === "top-left",
         "bottom-5 right-5": position === "bottom-right",
         "bottom-5 left-5": position === "bottom-left",
+        "top-0 mx-auto": position === "top",
       })}
     >
-      <Notification {...notification} />
+      {notification.map((prop) => (
+        <Notification {...prop} key={count++} />
+      ))}
     </div>
   ) : null;
   return { triggerNotification, NotificationComponent };

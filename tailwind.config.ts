@@ -24,9 +24,18 @@ const config: Config = {
             transform: "rotate(30deg)",
           },
         },
+        fadeIn: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "100%",
+          },
+        },
       },
       animation: {
         "shake-hand": "shake 2s linear infinite",
+        "fade-in": "fadeIn 1s ease-in-out",
       },
     },
   },

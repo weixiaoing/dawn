@@ -9,7 +9,7 @@ import {
 } from "react-icons/ai";
 
 const icons = {
-  success: <AiOutlineCheckCircle />,
+  success: <AiOutlineCheckCircle  />,
   info: <AiOutlineInfoCircle />,
   warning: <AiOutlineWarning />,
   error: <AiOutlineExclamationCircle />,
@@ -24,26 +24,21 @@ const Notification = ({
   message,
   onClose,
 }: NotificationType) => {
-  return (
+  return ( 
     <div
+    style={{ transition: "all 0.3s ease-in-out" }}
       className={clsx(
-        `p-4 m-2.5 text-white flex items-center rounded-md shadow-sm font-serif`,
-        {
-          "bg-green-500": type === "success",
-          "bg-blue-500": type === "info",
-          "bg-yellow-500": type === "warning",
-          "bg-red-500": type === "error",
-        }
+        ` p-2 m-auto bg-white  flex items-center rounded-md shadow-sm font-serif border`
       )}
     >
-      <div className="mr-3">{icons[type]}</div>
-      {message}
-      {
+      <div className={clsx("mr-3",{"text-green-500":type==="success","text-blue-500":type==="info","text-yellow-500":type==="warning","text-red-500":type==="error"})}>{icons[type]}</div>
+      <span className="max-w-40  text-ellipsis overflow-hidden   ">{message}</span>
+      {/* {
         <AiOutlineCloseCircle
           className="ml-2 flex items-center"
           onClick={onClose}
         />
-      }
+      } */}
     </div>
   );
 };

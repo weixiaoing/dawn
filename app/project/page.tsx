@@ -6,7 +6,7 @@ import Video from "../_components/video";
 
 export default function Project() {
   const { triggerNotification, NotificationComponent } =
-    useNotification("bottom-left");
+    useNotification("top");
   return (
     <div>
       {NotificationComponent}
@@ -16,7 +16,7 @@ export default function Project() {
         onClick={() =>
           triggerNotification({
             type: "error",
-            message: "err",
+            message: "errasdassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
             onClose: () => {},
           })
         }

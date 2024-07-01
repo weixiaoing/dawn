@@ -4,10 +4,10 @@ import "./page.module.css";
 
 const description = "这里是一只正在学习前端,渴望学会全栈,梦想做开源的未晓";
 
-export default  function Home() {
+export default function Home() {
   return (
     <>
-      <main className="pt-40 space-y-5">
+      <main className="  animate-fade-in pt-40 space-y-5 ">
         <div className=" animate-bounce mx-auto ">
           <Image
             width={100}

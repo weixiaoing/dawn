@@ -9,6 +9,10 @@ export default function useSocket({
   const str = process.env.NEXT_PUBLIC_API_URL!;
   console.log("url", str);
   const [socket, setSocket] = useState<Socket>();
+   function createConnect() {
+    const newSocket = io(url);
+    setSocket(newSocket);
+  };
   useEffect(() => {
     const newSocket = io(url);
     setSocket(newSocket);

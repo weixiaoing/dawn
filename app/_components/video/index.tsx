@@ -12,7 +12,6 @@ export default function Video() {
   const [errorSetting, setErrorSetting] = useState<string>("");
   const myVideo = useRef<HTMLVideoElement>(null);
   const peerVideo = useRef<HTMLVideoElement>(null);
-
   const Stream = useMediaStream();
 
   useEffect(() => {
@@ -100,7 +99,12 @@ export default function Video() {
     };
 
     Stream && socket.current && mountPeer();
-  }, [Stream, socket]);
+    return () => {
+      socket.current?.off("call");
+      socket.current?.off("answer");
+      socket.current?.off("candidate");
+    }
+  }, [Stream, socket, socket.c]);
 
   return (
     <div className="grid grid-cols-[3fr,1fr]">

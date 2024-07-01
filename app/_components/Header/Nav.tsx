@@ -31,8 +31,8 @@ export function Nav() {
           </Link>
         </li>
         <li>
-          <Link href={"/chat"}>
-            <HoverTag>Chat</HoverTag>
+          <Link href={"/Intest"}>
+            <HoverTag>实验室</HoverTag>
           </Link>
         </li>
         <li>
