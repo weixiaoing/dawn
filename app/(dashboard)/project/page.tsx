@@ -15,8 +15,7 @@ export default function Project() {
         onClick={() =>
           triggerNotification({
             type: "error",
-            message:
-              "errasdassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+            message: "错误~~",
             onClose: () => {},
           })
         }
@@ -28,8 +27,7 @@ export default function Project() {
         onClick={() =>
           triggerNotification({
             type: "success",
-            message: "success",
-            onClose: () => {},
+            message: "成功啦~",
           })
         }
       >

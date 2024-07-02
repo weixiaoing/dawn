@@ -16,10 +16,22 @@ const nextConfig = {
         pathname: "**",
       },
     ],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy:
+      "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
   },
   basePath: "",
   devIndicators: {
     buildActivityPosition: "bottom-right",
+  },
+  redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/home",
+        permanent: true,
+      },
+    ];
   },
 };
 

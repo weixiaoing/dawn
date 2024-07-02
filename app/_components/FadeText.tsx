@@ -6,38 +6,43 @@ const textVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
   transition: {
-    type: "spring",
-    stiffness: 100,
+    // type: "spring",
+    // stiffness: 100,
   },
 };
 
 const textContainer = {
-  hidden: { opacity: 0, y: 100 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
+
     transition: {
-      delay: 0.5,
       staggerChildren: 0.1,
     },
   },
 };
-const text = " Hi, I'm Innei. |A NodeJS Full Stack";
-const AnimatedText = () => {
+
+const FadeText = ({
+  text,
+  className,
+  ...props
+}: {
+  text: string;
+  className?: string;
+}) => {
   return (
     <motion.div
       initial="hidden"
       animate="visible"
       variants={textContainer}
+      className={className}
       style={{ display: "flex", fontSize: "2em", fontWeight: "bold" }}
     >
       {text.split("").map((char, index) => {
         return (
           <>
-            <motion.span key={index} variants={textVariants}>
-              {char === "|" ? "||||" : char}
-            </motion.span>
-            {char === "|" && <br />}
+            <motion.span variants={textVariants}>{char}</motion.span>
+            <br />
           </>
         );
       })}
@@ -46,4 +51,4 @@ const AnimatedText = () => {
   );
 };
 
-export default AnimatedText;
+export default FadeText;

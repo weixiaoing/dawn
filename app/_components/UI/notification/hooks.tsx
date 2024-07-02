@@ -15,25 +15,28 @@ const useNotification = (
   
   const [notification, setNotification] = useState<NotificationType[]>([]);
   const triggerNotification = useCallback((props: NotificationType) => {
-    setNotification((pre)=>{
-      return [props,...pre ];
+    setNotification((pre) => {
+      return [props, ...pre];
     });
     setTimeout(() => {
-      setNotification((pre)=>{
-        return pre.slice(0,pre.length-1)
+      setNotification((pre) => {
+        return pre.slice(0, pre.length - 1);
       });
-    }, 30000);
+    }, 1000);
     return null;
   }, []);
   const NotificationComponent = notification?.length ? (
     <div
-      className={clsx("fixed inline-block", {
-        "top-5 right-5": position === "top-right",
-        "top-5 left-5": position === "top-left",
-        "bottom-5 right-5": position === "bottom-right",
-        "bottom-5 left-5": position === "bottom-left",
-        "top-0 mx-auto": position === "top",
-      })}
+      className={clsx(
+        "fixed flex-col flex items-center space-y-5 w-[100%] h-0 overflow-visible",
+        {
+          "top-5 right-5": position === "top-right",
+          "top-5 left-5": position === "top-left",
+          "bottom-5 right-5": position === "bottom-right",
+          "bottom-5 left-5": position === "bottom-left",
+          "top-5 left-[50%] translate-x-[-50%] ": position === "top",
+        }
+      )}
     >
       {notification.map((prop) => (
         <Notification {...prop} key={count++} />

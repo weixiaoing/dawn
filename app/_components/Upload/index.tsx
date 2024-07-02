@@ -33,7 +33,6 @@ const FileUploader = () => {
             {file.name}
             <button
               onClick={() => {
-                //   console.log(file.arrayBuffer().then((res) => console.log(res)));
                 console.log(file);
               }}
             >
