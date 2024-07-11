@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { delay, motion } from "framer-motion";
+import clsx from "clsx";
 
 const textVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -35,20 +36,20 @@ const FadeText = ({
       initial="hidden"
       animate="visible"
       variants={textContainer}
-      className={className}
-      style={{ display: "flex", fontSize: "2em", fontWeight: "bold" }}
+      className={clsx("", className)}
+      style={{ fontSize: "2em", fontWeight: "bold" }}
     >
-      {text.split("").map((char, index) => {
-        return (
-          <>
-            <motion.span key={char} variants={textVariants}>
+      <div className="flex flex-wrap">
+        {text.split("").map((char, index) => {
+          return (
+            <motion.span key={index} variants={textVariants}>
               {char}
             </motion.span>
-            <br />
-          </>
-        );
-      })}
-      <motion.span variants={textVariants}></motion.span>
+          );
+        })}
+      </div>
+
+      <motion.div variants={textVariants}>你好</motion.div>
     </motion.div>
   );
 };

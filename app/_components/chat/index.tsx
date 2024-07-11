@@ -1,13 +1,19 @@
 "use client";
-import { Button } from "@nextui-org/react";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import useSocket from "./hook";
 import { Skeleton } from "../UI/Skeleton";
 import clsx from "clsx";
+import Button from "../UI/button";
 
-export default function Chat({ room, ...props }: { room: string, [key: string]: any }) {
+export default function Chat({
+  room,
+  ...props
+}: {
+  room: string;
+  [key: string]: any;
+}) {
   const { socket } = useSocket({ room });
   const [text, setText] = useState<string>("");
   const [list, setList] = useState<{ msg: string; timeAt: string }[]>([]);

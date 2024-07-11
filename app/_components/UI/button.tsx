@@ -1,16 +1,17 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { ReactEventHandler, useState } from "react";
 import Card from "./card";
 
 type props = {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: ReactEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   loading?: boolean;
   onOk?: () => void;
   onCancel?: () => void;
+  border?: boolean;
 };
 
 export default function Button({
@@ -20,11 +21,13 @@ export default function Button({
   type,
   disabled,
   loading,
+  border,
 }: props) {
   return (
     <button
       className={clsx(
-        "p-1 border border-blue-400 text-blue-400 rounded outline-none flex  items-center justify-center",
+        "p-1  rounded outline-none flex  items-center justify-center",
+        border && "border border-blue-400 text-blue-400",
         className
       )}
       onClick={onClick}

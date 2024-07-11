@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import { Header } from "./_components/Header";
 import "./globals.css";
+import clsx from "clsx";
 
 const roboto_mono = Roboto_Mono({ subsets: ["latin"], display: "swap" });
 
@@ -17,7 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto_mono.className}>
+      <body
+        className={clsx(
+          roboto_mono.className,
+          "dark:bg-gray-900 bg-orange-50 bg-opacity-30"
+        )}
+      >
         <div className="min-h-screen dark:text-white ">
           <Header></Header>
           <main className="animate-fade-in max-w-2xl p-[20px] mx-auto">
