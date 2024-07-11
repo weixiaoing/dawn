@@ -1,5 +1,7 @@
 "use client";
 
+import Button from "@/_components/UI/button";
+import Card from "@/_components/UI/card";
 import useNotification from "@/_components/UI/notification/hooks";
 import FileUploader from "@/_components/Upload";
 import Video from "@/_components/video";
@@ -10,8 +12,7 @@ export default function Project() {
     <div>
       {NotificationComponent}
       <h1 className="text-3xl text-center">Project</h1>
-      <button
-        className="p-1 border rounded box-border m-2"
+      <Button
         onClick={() =>
           triggerNotification({
             type: "error",
@@ -21,9 +22,8 @@ export default function Project() {
         }
       >
         err
-      </button>
-      <button
-        className="border"
+      </Button>
+      <Button
         onClick={() =>
           triggerNotification({
             type: "success",
@@ -32,8 +32,15 @@ export default function Project() {
         }
       >
         success
-      </button>
+      </Button>
       <FileUploader />
+      <Card
+        header={<h1>top</h1>}
+        footer={<h1>bottom</h1>}
+        describtion={<h1>describtion</h1>}
+      >
+        <div>hello</div>
+      </Card>
     </div>
   );
 }

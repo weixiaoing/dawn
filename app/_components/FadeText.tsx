@@ -41,7 +41,9 @@ const FadeText = ({
       {text.split("").map((char, index) => {
         return (
           <>
-            <motion.span variants={textVariants}>{char}</motion.span>
+            <motion.span key={char} variants={textVariants}>
+              {char}
+            </motion.span>
             <br />
           </>
         );

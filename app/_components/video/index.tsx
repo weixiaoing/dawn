@@ -109,9 +109,21 @@ export default function Video() {
   return (
     <div className="grid grid-cols-[3fr,1fr]">
       <div>
-        <h1 onClick={() =>{console.log(Stream)}
-        }>user</h1>
-        <video autoPlay muted playsInline width={"500px"} ref={myVideo}></video>
+        <h1
+          onClick={() => {
+            console.log(Stream);
+          }}
+        >
+          user
+        </h1>
+        <video
+          className="w-0 h-0"
+          autoPlay
+          muted
+          playsInline
+          // width={"500px"}
+          ref={myVideo}
+        ></video>
       </div>
       <div>
         <h1>peer</h1>

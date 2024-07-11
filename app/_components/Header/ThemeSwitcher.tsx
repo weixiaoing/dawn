@@ -1,5 +1,11 @@
 "use client";
 
+import { TiAdjustBrightness } from "react-icons/ti";
+import { BsCloudSunFill } from "react-icons/bs";
+
+import { BsMoonFill, BsSunFill } from "react-icons/bs";
+import { BsFillMoonStarsFill } from "react-icons/bs";
+
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import Moon from "../../../public/Header/moon.svg";
@@ -55,7 +61,9 @@ export default function ThemeSwitcher() {
       ref={ref}
     >
       {" "}
-      <HoverTag>{isDarkMode ? <Moon /> : <Sun />}</HoverTag>
+      <HoverTag className="w-[24px] text-[18px]">
+        {isDarkMode ? <BsMoonFill /> : <Sun />}
+      </HoverTag>
     </div>
   );
 }

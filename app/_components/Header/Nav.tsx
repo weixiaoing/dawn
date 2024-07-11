@@ -6,17 +6,19 @@ import ThemeSwitcher from "./ThemeSwitcher";
 export function Nav() {
   return (
     <nav className="p-[32px] max-w-[1024px] mx-auto">
-      <ul className="flex space-x-5 ">
+      <ul className="flex space-x-5 justify-center items-center">
         <div className="size-10 relative top-[-10px] cursor-auto ">
           <Link href={"/"}>
-            <Image
-              width={40}
-              height={40}
-              src="https://avatars.githubusercontent.com/u/93917549?v=4"
-              alt="Dawn"
-              title="主页"
-              className="rounded-full"
-            />
+            <div className="w-[40px] h-[40px]">
+              <Image
+                width={40}
+                height={40}
+                src="https://avatars.githubusercontent.com/u/93917549?v=4"
+                alt="Dawn"
+                title="主页"
+                className="rounded-full "
+              />
+            </div>
           </Link>
         </div>
         <div className="flex-1"></div>
@@ -32,7 +34,7 @@ export function Nav() {
         </li>
         <li>
           <Link href={"/Intest"}>
-            <HoverTag>实验室</HoverTag>
+            <HoverTag className="text-nowrap">实验室</HoverTag>
           </Link>
         </li>
         <li>
