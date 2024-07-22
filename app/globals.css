@@ -8,3 +8,28 @@
   mix-blend-mode: normal;
 }
 
+*{
+  background-color: transparent;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  /* width: 0; */
+}
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  background: #451d1d;
+} */
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

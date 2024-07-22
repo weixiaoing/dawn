@@ -6,6 +6,7 @@ import useSocket from "./hook";
 import { Skeleton } from "../UI/Skeleton";
 import clsx from "clsx";
 import Button from "../UI/button";
+import CommentList from "../UI/comment/commentList";
 
 export default function Chat({
   room,
@@ -66,38 +67,47 @@ export default function Chat({
       </div>
       <div className="flex-grow">
         <ul className="w-auto border space-y-3 min-h-[400px] p-1">
-          {list.length !== 0 &&
-            list.map((item) => {
-              return (
-                <div key={item.timeAt} className="flex gap-2 ">
-                  <div className="w-[30px] h-[30px] self-end">
-                    <Image
-                      width={30}
-                      height={30}
-                      src="https://avatars.githubusercontent.com/u/93917549?v=4"
-                      alt="Dawn"
-                      title="Dawn"
-                      className="rounded-full "
-                    />
-                  </div>
+          {list.length !== 0 && (
+            // list.map((item) => {
+            //   return (
+            //     <div key={item.timeAt} className="flex gap-2 ">
+            //       <div className="w-[30px] h-[30px] self-end">
+            //         <Image
+            //           width={30}
+            //           height={30}
+            //           src="https://avatars.githubusercontent.com/u/93917549?v=4"
+            //           alt="Dawn"
+            //           title="Dawn"
+            //           className="rounded-full "
+            //         />
+            //       </div>
 
-                  <div className="flex-1 space-y-1">
-                    {" "}
-                    <header className=" space-x-2">
-                      <span className="text-gray-700 font-semibold text-[14px]">
-                        匿名用户
-                      </span>
-                      <span className="text-gray-400 text-[10px]">
-                        {dayjs(item.timeAt).format("YYYY-MM-DD HH:mm:ss")}
-                      </span>
-                    </header>
-                    <div className="text-sm w-auto inline-block  bg-blue-200 rounded p-1 text-wrap break-all overflow-hidden">
-                      <p>{item.msg}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            //       <div className="flex-1 space-y-1">
+            //         {" "}
+            //         <header className=" space-x-2">
+            //           <span className="text-gray-700 font-semibold text-[14px]">
+            //             匿名用户
+            //           </span>
+            //           <span className="text-gray-400 text-[10px]">
+            //             {dayjs(item.timeAt).format("YYYY-MM-DD HH:mm:ss")}
+            //           </span>
+            //         </header>
+            //         <div className="text-sm w-auto inline-block  bg-blue-200 rounded p-1 text-wrap break-all overflow-hidden">
+            //           <p>{item.msg}</p>
+            //         </div>
+            //       </div>
+            //     </div>
+            //   );
+            // })
+            <CommentList
+              comments={list.map((item) => {
+                return {
+                  content: item.msg,
+                  time: item.timeAt,
+                };
+              })}
+            />
+          )}
           {!SkeletonShow && list.length === 0 && (
             <li className="mt-[30%] text-center">
               <h1>暂无聊天记录</h1>

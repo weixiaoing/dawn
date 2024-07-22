@@ -25,16 +25,6 @@ export default function Home() {
         </h1>
 
         <FadeText text={description} />
-
-        <h1>
-          <span className="wave">H</span>
-          <span className="wave">e</span>
-          <span className="wave">l</span>
-          <span className="wave">l</span>
-          <span className="wave">o</span>
-        </h1>
-
-        {/* <BlogList /> */}
       </main>
     </>
   );

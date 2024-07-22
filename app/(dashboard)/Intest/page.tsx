@@ -1,49 +1,19 @@
-"use client";
-import React from "react";
-import { delay, motion } from "framer-motion";
+import Card from "@/_components/UI/card";
+import Comment from "@/_components/UI/comment/comment";
+import CommentList from "@/_components/UI/comment/commentList";
 
-const textVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-  transition: {
-    type: "spring",
-    stiffness: 100,
-  },
-};
-
-const textContainer = {
-  hidden: { opacity: 0, y: 100 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.5,
-      staggerChildren: 0.1,
-    },
-  },
-};
-const text = " Hi, I'm Innei. |A NodeJS Full Stack";
-const AnimatedText = () => {
+export default function Intest() {
+  const comments = Array.from({ length: 10 }).map((_, index) => {
+    return {
+      id: `${index}`,
+      content: `评论${index}`,
+    };
+  });
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={textContainer}
-      style={{ display: "flex", fontSize: "2em", fontWeight: "bold" }}
-    >
-      {text.split("").map((char, index) => {
-        return (
-          <>
-            <motion.span key={index} variants={textVariants}>
-              {char === "|" ? "||||" : char}
-            </motion.span>
-            {char === "|" && <br />}
-          </>
-        );
-      })}
-      <motion.span variants={textVariants}></motion.span>
-    </motion.div>
+    <>
+      <Card>
+        <CommentList comments={comments} />
+      </Card>
+    </>
   );
-};
-
-export default AnimatedText;
+}

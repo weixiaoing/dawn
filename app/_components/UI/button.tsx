@@ -26,7 +26,7 @@ export default function Button({
   return (
     <button
       className={clsx(
-        "p-1  rounded outline-none flex  items-center justify-center",
+        "p-1 inline-flex rounded outline-none items-center justify-center active:font-bold hover:font-medium ",
         border && "border border-blue-400 text-blue-400",
         className
       )}

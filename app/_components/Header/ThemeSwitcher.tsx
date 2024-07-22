@@ -24,21 +24,22 @@ export default function ThemeSwitcher() {
     }).ready;
     const { top, left } = ref.current.getBoundingClientRect();
 
-    const x = left;
-    const y = top;
+    const x = left + 5;
+    const y = top + 5;
     const right = window.innerWidth - y;
     const bottom = window.innerHeight - x;
-
     const maxRadius = Math.hypot(Math.max(y, right), Math.max(x, bottom));
     document.documentElement.animate(
       {
         clipPath: [
           `circle(0px at ${x}px ${y}px)`,
           `circle(${maxRadius}px at ${x}px ${y}px)`,
+          // `inset(0px at ${x}px ${y}px )`,
+          // `inset(${maxRadius}px at ${x}px ${y}px)`,
         ],
       },
       {
-        duration: 500,
+        duration: 300,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)",
       }
@@ -54,6 +55,7 @@ export default function ThemeSwitcher() {
   }, [isDarkMode]);
   return (
     <div
+      className="flex items-center"
       onClick={() => {
         toggleDarkMode(!isDarkMode);
         return false;
