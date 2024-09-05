@@ -28,11 +28,13 @@ export default function Comment({
 }: props) {
   const [replyShow, setReplyShow] = useState(false);
   const [replayText, setReplayText] = useState("");
+
   useEffect(() => {
-    if (replyShow && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [replyShow]);
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  });
   const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   if (!socket) return;
   const replay = () => {
@@ -42,6 +44,14 @@ export default function Comment({
       content: replayText,
     });
     setReplayText("");
+    setReplyShow(false);
+  };
+  const handleClickOutside = (event: any) => {
+    // 检查点击事件的目标是否不是目标元素或其子元素
+    if (inputRef.current && !inputRef.current.contains(event.target)) {
+      // 如果点击在外部，则关闭元素
+      setReplyShow(false);
+    }
   };
 
   return (
@@ -77,11 +87,11 @@ export default function Comment({
             </div>
             {replyShow && (
               <div
+                ref={inputRef}
                 onBlur={() => setReplyShow((show) => !show)}
                 className="border-blue-300  border p-2"
               >
                 <Input
-                  ref={inputRef}
                   border={false}
                   placeholder="请输入回复内容"
                   type="textarea"
