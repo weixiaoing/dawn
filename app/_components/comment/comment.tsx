@@ -86,11 +86,7 @@ export default function Comment({
               </Button>
             </div>
             {replyShow && (
-              <div
-                ref={inputRef}
-                onBlur={() => setReplyShow((show) => !show)}
-                className="border-blue-300  border p-2"
-              >
+              <div ref={inputRef} className="border-blue-300  border p-2">
                 <Input
                   border={false}
                   placeholder="请输入回复内容"
