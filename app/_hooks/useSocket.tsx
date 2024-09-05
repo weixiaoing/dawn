@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-const useSocket = (url = process.env.NEXT_PUBLIC_API_URL!, room = "Home") => {
+const useSocket = (
+  url = process.env.NEXT_PUBLIC_SOCKET_URL!,
+  room = "Home"
+) => {
   const socket = useRef<Socket>();
   useEffect(() => {
     const newSocket = io(url);

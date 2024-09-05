@@ -23,13 +23,8 @@ export function Nav() {
         <Link href={"/project"}>
           <HoverTag>Project</HoverTag>
         </Link>
-
-        <Link href={"/Intest"}>
-          <HoverTag className="text-nowrap">实验室</HoverTag>
-        </Link>
-
         <Link href={"/video"}>
-          <HoverTag>Video</HoverTag>
+          <HoverTag>video</HoverTag>
         </Link>
       </Menu>
 

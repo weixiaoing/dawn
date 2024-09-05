@@ -5,7 +5,6 @@ import { Skeleton } from "../UI/Skeleton";
 
 export default async function BlogList() {
   const arr: any[] | any = await getBlogList();
-  // const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <>
       <ul className="space-y-2">

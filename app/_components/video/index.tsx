@@ -104,7 +104,7 @@ export default function Video() {
       socket.current?.off("answer");
       socket.current?.off("candidate");
     };
-  }, [Stream, socket, socket]);
+  }, [Stream, socket]);
 
   return (
     <div className="grid grid-cols-[3fr,1fr]">
@@ -112,18 +112,12 @@ export default function Video() {
         <h1
           onClick={() => {
             console.log(Stream);
+            console.log(myVideo.current?.srcObject == Stream);
           }}
         >
           user
         </h1>
-        <video
-          className="w-0 h-0"
-          autoPlay
-          muted
-          playsInline
-          // width={"500px"}
-          ref={myVideo}
-        ></video>
+        <video autoPlay muted playsInline width={"500px"} ref={myVideo}></video>
       </div>
       <div>
         <h1>peer</h1>

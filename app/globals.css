@@ -8,9 +8,7 @@
   mix-blend-mode: normal;
 }
 
-*{
-  background-color: transparent;
-}
+
 
 /* width */
 ::-webkit-scrollbar {

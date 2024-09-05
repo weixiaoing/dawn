@@ -1,30 +1,48 @@
 "use client";
-import { useState } from "react";
-import Card from "../card";
+import { useContext, useEffect, useRef, useState } from "react";
+import Card from "../UI/card";
 import Image from "next/image";
-import Avatar from "../avatar";
-import Button from "../button";
-import Input from "../input";
-export type CommentType = {
-  avatar?: string;
-  name?: string;
-  content?: string;
-  time?: string;
-};
+import Avatar from "../UI/avatar";
+import Button from "../UI/button";
+import Input from "../UI/input";
+import { CommentType } from "./type";
+import dayjs from "dayjs";
+import { Socket } from "socket.io-client";
+
 type props = {
   border?: boolean;
   children?: React.ReactNode;
+  socket?: Socket;
   submit?: (content: string) => void;
 } & CommentType;
 export default function Comment({
+  socket,
   avatar = "https://github.com/shadcn.png",
   name = "匿名用户",
   content = "test",
-  time = "刚刚",
+  _id,
+  createdAt = "刚刚",
   border = false,
+  postId,
   children,
 }: props) {
   const [replyShow, setReplyShow] = useState(false);
+  const [replayText, setReplayText] = useState("");
+  useEffect(() => {
+    if (replyShow && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [replyShow]);
+  const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
+  if (!socket) return;
+  const replay = () => {
+    socket.emit("replay", {
+      parentId: _id,
+      postId,
+      content: replayText,
+    });
+    setReplayText("");
+  };
 
   return (
     <Card className="px-0" border={border}>
@@ -33,7 +51,9 @@ export default function Comment({
         <div className="flex-1 p-2">
           <header className="space-x-1 flex items-center justify-between">
             <span className="font-semibold">{name}</span>
-            <span className="text-gray-400 text-[0.8rem]">{time}</span>
+            <span className="text-gray-400 text-[0.8rem]">
+              {dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")}
+            </span>
           </header>
           <p className="bg-zinc-600/5 dark:bg-zinc-500/20 dark:bg-zinc-400 inline-block rounded-lg rounded-tl-sm p-2 text-zinc-800 dark:text-zinc-200">
             {content}
@@ -56,15 +76,30 @@ export default function Comment({
               </Button>
             </div>
             {replyShow && (
-              <div className="border-blue-300  border p-2">
+              <div
+                onBlur={() => setReplyShow((show) => !show)}
+                className="border-blue-300  border p-2"
+              >
                 <Input
+                  ref={inputRef}
                   border={false}
                   placeholder="请输入回复内容"
                   type="textarea"
                   className="min-h-[6rem] mx-h-[12rem]"
+                  value={replayText}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setReplayText(e.target.value);
+                  }}
                 ></Input>
                 <footer className="flex flex-row-reverse ">
-                  <Button className="bg-blue-600 text-white">send</Button>
+                  <Button
+                    onClick={() => {
+                      replay();
+                    }}
+                    className="bg-blue-600 text-white"
+                  >
+                    send
+                  </Button>
                 </footer>
               </div>
             )}

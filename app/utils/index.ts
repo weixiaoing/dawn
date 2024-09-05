@@ -6,7 +6,10 @@ const cache = new Map();
 const getBlogList = async () => {
   try {
     if (cache.has("blogList")) {
-      return cache.get("blogList");
+      const res = cache.get("blogList");
+      console.log(res);
+
+      return res;
     }
     let res = await notion.databases.query({
       database_id: process.env.NOTION_ID!,

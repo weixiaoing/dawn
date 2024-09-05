@@ -1,12 +1,16 @@
 "use client";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useSocket from "./hook";
 import { Skeleton } from "../UI/Skeleton";
 import clsx from "clsx";
 import Button from "../UI/button";
-import CommentList from "../UI/comment/commentList";
+import CommentList from "../comment/commentList";
+import Input from "../UI/input";
+import { CommentType } from "../comment/type";
+import { ChangeEvent, HtmlChangedEvent } from "md-editor-rt";
+import { createContext } from "vm";
 
 export default function Chat({
   room,
@@ -17,20 +21,35 @@ export default function Chat({
 }) {
   const { socket } = useSocket({ room });
   const [text, setText] = useState<string>("");
-  const [list, setList] = useState<{ msg: string; timeAt: string }[]>([]);
+  const [list, setList] = useState<CommentType[]>([]);
   const [SkeletonShow, setSkeletonShow] = useState<boolean>(true);
+  const SocketContext = createContext();
+
   useEffect(() => {
     if (socket) {
       socket.on("chatList", (data) => {
+        console.log("i get", data);
         setList((list) => {
           return [data, ...list];
         });
       });
-    }
-    if (socket) {
       socket.on("listInit", (data) => {
         setList(data);
         setSkeletonShow(false);
+      });
+      socket.on("subChatOut", (data) => {
+        setList((list) => {
+          return list.map((item) => {
+            if (item._id === data.parentId) {
+              return {
+                ...item,
+                replies: [...item.replies, data],
+              };
+            } else {
+              return item;
+            }
+          });
+        });
       });
     }
   }, [socket]);
@@ -39,7 +58,6 @@ export default function Chat({
   const send = async (e: any) => {
     e.preventDefault();
     if (text.trim() !== "") {
-      console.log(room);
       socket.emit("send", {
         room,
         msg: text,
@@ -52,18 +70,22 @@ export default function Chat({
 
   return (
     <div className={clsx("mx-auto", props?.className)}>
-      <div className="flex">
-        {" "}
-        <input
-          type="text"
-          className="border flex-1"
-          onChange={(e) => setText(e.target.value)}
-          onKeyUp={(e) => {
-            if (e.key === "Enter") send(e);
-          }}
+      <div className="border-blue-300  border p-2">
+        <Input
+          border={false}
+          placeholder="请输入回复内容"
+          type="textarea"
+          className="min-h-[6rem] mx-h-[12rem]"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setText(e.target.value)
+          }
           value={text}
-        />{" "}
-        <Button onClick={send}>Send</Button>
+        ></Input>
+        <footer className="flex flex-row-reverse ">
+          <Button onClick={send} className="bg-blue-600 text-white">
+            send
+          </Button>
+        </footer>
       </div>
       <div className="flex-grow">
         <ul className="w-auto border space-y-3 min-h-[400px] p-1">
@@ -99,14 +121,7 @@ export default function Chat({
             //     </div>
             //   );
             // })
-            <CommentList
-              comments={list.map((item) => {
-                return {
-                  content: item.msg,
-                  time: item.timeAt,
-                };
-              })}
-            />
+            <CommentList socket={socket} comments={list} />
           )}
           {!SkeletonShow && list.length === 0 && (
             <li className="mt-[30%] text-center">

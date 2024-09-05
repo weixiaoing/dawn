@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 let count = 0;
 export default function useSocket({
-  url = process.env.NEXT_PUBLIC_API_URL!,
+  url = process.env.NEXT_PUBLIC_SOCKET_URL!,
   room = "Home",
 }) {
   const [socket, setSocket] = useState<Socket>();

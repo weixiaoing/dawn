@@ -19,7 +19,7 @@ export default function Card({
   return (
     <div
       className={clsx(
-        "p-4 break-words break-all   rounded-[16px] space-y-4",
+        "p-4 break-words break-all space-y-4  rounded-[16px] gap-4",
         border && "border border-zinc-200  dark:border-opacity-20",
         className
       )}

@@ -11,6 +11,7 @@ const useMediaStream = () => {
       })
       .then((stream) => {
         setMediaStream(stream);
+        console.log("获取音视频成功", stream);
       })
       .catch((error) => {
         console.log("获取音视频失败", error.message);

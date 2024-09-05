@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <main className="pt-40 space-y-5 ">
-        <div className=" animate-bounce mx-auto ">
+        <div className="  mx-auto ">
           <Image
             width={100}
             height={100}

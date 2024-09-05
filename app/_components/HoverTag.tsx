@@ -18,12 +18,7 @@ export function HoverTag({
     // >
     //   {children}
     // </div>
-    <Button
-      className={clsx(
-        "text-gray-400  cursor-pointer hover:border-b",
-        className
-      )}
-    >
+    <Button className={clsx("text-gray-400  cursor-pointer ", className)}>
       {children}
     </Button>
   );
