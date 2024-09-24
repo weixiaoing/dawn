@@ -4,6 +4,7 @@ import Button from "./UI/button";
 export function HoverTag({
   children,
   className,
+
   ...props
 }: {
   children: React.ReactNode;

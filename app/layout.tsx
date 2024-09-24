@@ -1,9 +1,9 @@
+import "@radix-ui/themes/styles.css";
+import clsx from "clsx";
 import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import { Header } from "./_components/Header";
-import "@radix-ui/themes/styles.css";
 import "./globals.css";
-import clsx from "clsx";
 
 const roboto_mono = Roboto_Mono({ subsets: ["latin"], display: "swap" });
 
@@ -20,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={clsx(roboto_mono.className, "dark:bg-gray-900 bg-zinc-50 ")}
+        className={clsx(
+          roboto_mono.className,
+          "dark:bg-[rgb(48,48,48)] bg-[rgb(241,242,243)] "
+        )}
       >
-        <div className="min-h-screen bg-transparent font-normal dark:text-white ">
-          <Header></Header>
-          <main className="animate-fade-in max-w-2xl p-[20px] mx-auto">
-            {" "}
+        <div className="min-h-screen  bg-transparent flex-col font-normal dark:text-white ">
+          <Header />
+          <main className="z-[-10] animate-fade-in max-w-screen-md p-4 mx-auto">
             {children}
           </main>
         </div>

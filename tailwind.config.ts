@@ -1,5 +1,5 @@
+import Typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
-
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,6 +13,7 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+
       keyframes: {
         shake: {
           "0%, 100%": {
@@ -38,5 +39,6 @@ const config: Config = {
     },
   },
   darkMode: "selector",
+  plugins: [Typography],
 };
 export default config;

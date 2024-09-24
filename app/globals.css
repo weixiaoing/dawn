@@ -8,7 +8,9 @@
   mix-blend-mode: normal;
 }
 
-
+.dark .dim-image {
+  filter: brightness(0.9);
+}
 
 /* width */
 ::-webkit-scrollbar {

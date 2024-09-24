@@ -1,9 +1,7 @@
 "use client";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import Image from "next/image";
-import ThemeSwitcher from "./ThemeSwitcher";
 import Button from "../UI/button";
-
+import ThemeSwitcher from "./ThemeSwitcher";
 export function ScrollTop() {
   return (
     <div className=" flex flex-col space-y-2 items-center fixed bottom-5 right-2  ">
@@ -21,3 +19,5 @@ export function ScrollTop() {
     </div>
   );
 }
+
+export const test = () => {};

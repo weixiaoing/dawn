@@ -3,13 +3,13 @@
 import Button from "@/_components/UI/button";
 import Card from "@/_components/UI/card";
 import useNotification from "@/_components/UI/notification/hooks";
+import VirtualScroll from "@/_components/UI/VirtualScroll";
 import FileUploader from "@/_components/Upload";
-import Video from "@/_components/video";
 
 export default function Project() {
   const { triggerNotification, NotificationComponent } = useNotification("top");
   return (
-    <div>
+    <div className="static">
       {NotificationComponent}
       <h1 className="text-3xl text-center">Project</h1>
       <Button
@@ -41,6 +41,7 @@ export default function Project() {
       >
         <div>hello</div>
       </Card>
+      <VirtualScroll></VirtualScroll>
     </div>
   );
 }

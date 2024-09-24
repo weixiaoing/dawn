@@ -28,7 +28,7 @@ export default function Video() {
             credential: "password", // TURN服务器的密码
           },
         ],
-      };
+      };  
       const peer = new RTCPeerConnection(configuration);
       // const peer = new RTCPeerConnection();
       const peerStream = new MediaStream();
