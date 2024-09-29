@@ -1,16 +1,13 @@
 "use client";
-import dayjs from "dayjs";
-import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import useSocket from "./hook";
-import { Skeleton } from "../UI/Skeleton";
 import clsx from "clsx";
-import Button from "../UI/button";
-import CommentList from "../comment/commentList";
-import Input from "../UI/input";
-import { CommentType } from "../comment/type";
-import { ChangeEvent, HtmlChangedEvent } from "md-editor-rt";
+import { useEffect, useState } from "react";
 import { createContext } from "vm";
+import { Skeleton } from "../UI/Skeleton";
+import Button from "../UI/button";
+import Input from "../UI/input";
+import CommentList from "../comment/commentList";
+import { CommentType } from "../comment/type";
+import useSocket from "./hook";
 
 export default function Chat({
   room,
@@ -57,6 +54,7 @@ export default function Chat({
 
   const send = async (e: any) => {
     e.preventDefault();
+
     if (text.trim() !== "") {
       socket.emit("send", {
         room,
@@ -70,12 +68,12 @@ export default function Chat({
 
   return (
     <div className={clsx("mx-auto", props?.className)}>
-      <div className="border-blue-300  border p-2">
+      <div className="border-blue-300 dark:bg-slate-700 dark:bg-white border p-2">
         <Input
           border={false}
           placeholder="请输入回复内容"
           type="textarea"
-          className="min-h-[6rem] mx-h-[12rem]"
+          className="min-h-[6rem] mx-h-[12rem] dark:bg-white p-1"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setText(e.target.value)
           }
@@ -88,7 +86,7 @@ export default function Chat({
         </footer>
       </div>
       <div className="flex-grow">
-        <ul className="w-auto border space-y-3 min-h-[400px] p-1">
+        <ul className="w-auto  space-y-3 min-h-[400px] p-1">
           {list.length !== 0 && (
             // list.map((item) => {
             //   return (

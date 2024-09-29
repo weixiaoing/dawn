@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+
 import clsx from "clsx";
 type props = {
   children?: React.ReactNode;
@@ -7,8 +8,9 @@ type props = {
   footer?: React.ReactNode;
   describtion?: React.ReactNode;
   border?: boolean;
+  coverClick?: () => void;
   hoverable?: boolean;
-  cover?: string;
+  cover?: React.ReactNode;
 };
 export default function Card({
   children,
@@ -18,6 +20,7 @@ export default function Card({
   describtion,
   border,
   cover,
+
   hoverable = false,
 }: props) {
   return (
@@ -29,17 +32,7 @@ export default function Card({
         className
       )}
     >
-      {cover && (
-        <div>
-          <img
-            className="w-full min-h-[100px] max-h-[200px] dim-image  "
-            src={cover}
-            loading="lazy"
-            srcSet="https://www.notion.so/images/page-cover/solid_beige.png"
-            alt="cover"
-          />
-        </div>
-      )}
+      {cover && <>{cover}</>}
       <div className="p-4 break-words break-all space-y-4">
         {header && <header>{header}</header>}
         {describtion && <div className="text-gray-400 ">{describtion}</div>}

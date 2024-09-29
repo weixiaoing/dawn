@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { CommentType } from "./type";
-import Comment from "./comment";
-import Button from "../UI/button";
+import { useMemo, useState } from "react";
 import { Socket } from "socket.io-client";
+import Button from "../UI/button";
+import Comment from "./comment";
+import { CommentType } from "./type";
 function MainComment({
   socket,
   comment,
@@ -13,12 +13,21 @@ function MainComment({
   comment: CommentType;
 }) {
   const [unfold, setUnfold] = useState(false);
+  const renderList = useMemo(() => {
+    if (unfold) {
+      return comment.replies;
+    } else {
+      return comment.replies.slice(0, 2);
+    }
+  }, [unfold, comment.replies]);
   return (
     <Comment socket={socket} {...comment}>
       {comment.replies && (
         <div className="overflow-y-scroll max-h-80vh">
-          {comment.replies.map((replay, index) => {
-            return <Comment socket={socket} {...replay} key={replay._id} />;
+          {renderList.map((replay, index) => {
+            return (
+              <Comment noreplay socket={socket} {...replay} key={replay._id} />
+            );
           })}
           {
             <footer className="text-gray-400">

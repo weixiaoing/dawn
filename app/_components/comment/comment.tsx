@@ -1,19 +1,19 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
-import Card from "../UI/card";
-import Image from "next/image";
+import dayjs from "dayjs";
+import { useEffect, useRef, useState } from "react";
+import { Socket } from "socket.io-client";
 import Avatar from "../UI/avatar";
 import Button from "../UI/button";
+import Card from "../UI/card";
 import Input from "../UI/input";
 import { CommentType } from "./type";
-import dayjs from "dayjs";
-import { Socket } from "socket.io-client";
 
 type props = {
   border?: boolean;
   children?: React.ReactNode;
   socket?: Socket;
   submit?: (content: string) => void;
+  noreplay?: boolean;
 } & CommentType;
 export default function Comment({
   socket,
@@ -25,6 +25,7 @@ export default function Comment({
   border = false,
   postId,
   children,
+  noreplay = false,
 }: props) {
   const [replyShow, setReplyShow] = useState(false);
   const [replayText, setReplayText] = useState("");
@@ -77,13 +78,15 @@ export default function Comment({
               <Button>
                 <span>save</span>
               </Button> */}
-              <Button
-                onClick={() => {
-                  setReplyShow((show) => !show);
-                }}
-              >
-                <span>Replay</span>
-              </Button>
+              {!noreplay && (
+                <Button
+                  onClick={() => {
+                    setReplyShow((show) => !show);
+                  }}
+                >
+                  <span>Replay</span>
+                </Button>
+              )}
             </div>
             {replyShow && (
               <div ref={inputRef} className="border-blue-300  border p-2">

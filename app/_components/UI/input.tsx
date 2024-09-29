@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import clsx from "clsx";
-import { HtmlChangedEvent } from "md-editor-rt";
-import { ChangeEvent, forwardRef } from "react";
+import { forwardRef } from "react";
 type props = {
   border?: boolean;
   className?: string;
@@ -43,7 +42,7 @@ const Input = forwardRef(
           <div>
             <textarea
               className={clsx(
-                "outline-none w-[100%] resize-none scrolll",
+                "outline-none w-[100%] resize-none scrolll text-black",
                 border && "focus:border-blue-300 focus:border",
                 className
               )}

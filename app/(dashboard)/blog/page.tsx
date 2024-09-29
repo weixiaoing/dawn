@@ -1,15 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
 import Card from "@/_components/UI/card";
-import { Skeleton } from "@/_components/UI/Skeleton";
+import { VirtualList } from "@/_components/UI/VirtualList";
+import { BlogData } from "@/_typs/blog";
 import { getBlogList } from "@/utils";
 import dayjs from "dayjs";
-import { Metadata } from "next";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { AiFillEye, AiFillLike } from "react-icons/ai";
 import { MdDateRange } from "react-icons/md";
-
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "just do it!",
-};
 export default function Blog() {
   return (
     <div className=" pt-10">
@@ -18,43 +17,76 @@ export default function Blog() {
   );
 }
 
-async function BlogList() {
-  let { data } = await getBlogList();
-  data = data.sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf());
+function BlogList() {
+  const [data, setData] = useState<BlogData[]>([]);
+
+  useEffect(() => {
+    getBlogList().then((res) => {
+      let result = res.data;
+      setData(result);
+    });
+  }, []);
   return (
     <>
-      <ul className="space-y-4">
-        {data.map((item: any) => {
-          return (
+      <VirtualList
+        containerHeight={900}
+        bufferCount={5}
+        list={data}
+        renderItem={(item) => (
+          <div className="pb-4">
             <Card
-              cover="123"
+              // cover={
+              //   <Link href={`/blog/${item._id}`}>
+              //     <div>
+              //       <img
+              //         className="w-full min-h-[100px] max-h-[200px] dim-image  "
+              //         src={item.cover}
+              //         loading="lazy"
+              //         srcSet="https://www.notion.so/images/page-cover/solid_beige.png"
+              //         alt="cover"
+              //       />
+              //     </div>
+              //   </Link>
+              // }
               hoverable
               className="p-0"
               key={item._id}
               header={
-                <Link href={`/blog/${item._id}`}>
-                  <h1 className="text-xl dark:text-zinc-200 hover:font-medium">
-                    {item.title}
-                  </h1>
-                </Link>
+                <div className="space-y-2">
+                  <Link href={`/blog/${item._id}`}>
+                    <h1 className="text-xl dark:text-zinc-200 hover:font-medium">
+                      {item.title}
+                    </h1>
+                  </Link>
+                  <div className="flex gap-2">
+                    {item.tags.map((tag: string) => (
+                      <div
+                        className="bg-[rgb(209,230,181)] p-1 rounded-md text-sm text-[#000000cc]"
+                        key={tag}
+                      >
+                        <span>{tag}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               }
               describtion={item.summary}
               footer={
                 <div>
-                  <span className="text-gray-400 text-center flex gap-2 items-center ">
+                  <span className="text-gray-400 text-center text-sm flex gap-2 items-center ">
                     <MdDateRange />
-                    {dayjs(item.date).format("YYYY-MM-DD")}
+                    {dayjs(item.date).locale("zh").format("YYYY年M月DD日")}
+                    <AiFillEye />
+                    {<>{item.watched}</>}
+                    <AiFillLike />
+                    {<>{item.like}</>}
                   </span>
                 </div>
               }
             ></Card>
-          );
-        })}
-        {data.length === 0 &&
-          Array.from({ length: 10 }).map((_, index) => (
-            <Skeleton key={index} className="w-[full] h-5 "></Skeleton>
-          ))}
-      </ul>
+          </div>
+        )}
+      />
     </>
   );
 }

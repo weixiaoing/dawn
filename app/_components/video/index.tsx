@@ -13,7 +13,7 @@ export default function Video() {
   const myVideo = useRef<HTMLVideoElement>(null);
   const peerVideo = useRef<HTMLVideoElement>(null);
   const Stream = useMediaStream();
-
+  const [linked, setLinked] = useState(false);
   useEffect(() => {
     const pushStream = async (
       stream: MediaStream,
@@ -28,9 +28,9 @@ export default function Video() {
             credential: "password", // TURN服务器的密码
           },
         ],
-      };  
+      };
       const peer = new RTCPeerConnection(configuration);
-      // const peer = new RTCPeerConnection();
+
       const peerStream = new MediaStream();
       // 添加各种本地流到peer连接上
       stream.getTracks().forEach((track) => {

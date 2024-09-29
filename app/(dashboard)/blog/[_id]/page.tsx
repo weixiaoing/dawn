@@ -5,27 +5,41 @@ import "highlight.js/styles/atom-one-dark.css";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 export default async function Article({ params }: { params: { _id: string } }) {
+  if (typeof window == "undefined") {
+    console.log("server component");
+  } else {
+    console.log("client component");
+  }
   if (params._id.length == 0) return null;
   const data = await getPost({
     _id: params._id,
   }).then((res) => {
     return res.data?.[0];
   });
-  console.log(data);
-
-  // const data = await fetch(
-  //   `https://notion-api.splitbee.io/v1/page/${params.id}`
-  // )
-  //   .then((res) => res.json())
-  //   .catch((e) => {
-  //     return;
-  //   });
 
   return (
     <div className="animate-fade-in">
-      <Card>
+      <Card
+        cover={
+          <div className="w-full">
+            <img
+              className=" h-[200px] w-full "
+              src={"https://www.notion.so/images/page-cover/solid_beige.png"}
+              srcSet={data.cover}
+            />
+          </div>
+        }
+        header={
+          <>
+            <h1 className="text-[40px]   dark:text-black">{data?.title}</h1>
+          </>
+        }
+      >
         {data && (
-          <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+          <ReactMarkdown
+            className="prose p-0 prose-zinc dark:prose-invert "
+            rehypePlugins={[rehypeHighlight]}
+          >
             {data.content}
           </ReactMarkdown>
         )}

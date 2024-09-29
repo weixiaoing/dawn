@@ -3,7 +3,6 @@
 import Button from "@/_components/UI/button";
 import Card from "@/_components/UI/card";
 import useNotification from "@/_components/UI/notification/hooks";
-import VirtualScroll from "@/_components/UI/VirtualScroll";
 import FileUploader from "@/_components/Upload";
 
 export default function Project() {
@@ -41,7 +40,6 @@ export default function Project() {
       >
         <div>hello</div>
       </Card>
-      <VirtualScroll></VirtualScroll>
     </div>
   );
 }

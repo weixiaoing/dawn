@@ -1,66 +1,142 @@
 import { ChangeEventHandler, useState } from "react";
-
+import SparkMD5 from "spark-md5";
 const FileUploader = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [progressList, setProgressList] = useState({ val: [] });
-  //  文件捆绑 切片过程放入worker现场会因为非transfer对象导致性能消耗 文件过大会导致内存溢出
-  const chunkFile = (file: File, size = 1024 * 1024 * 4) => {
-    // 文件分割
-    const sliceFile = (file: File, size = 1024 * 1024 * 4) => {
-      const chunk: Blob[] = [];
-      for (let i = 0; i < file.size; i += size) {
-        chunk.push(file.slice(i, i + size));
-      }
-      return chunk;
-    };
-    // 转化bufferarray数组
-    async function blobArrayToArrayBuffer(chunks: Blob[]) {
-      return Promise.all(chunks.map((chunk) => chunk.arrayBuffer()));
-    }
-    // const chunks = await blobArrayToArrayBuffer(sliceFile(file, size));
-    const chunks = sliceFile(file, size);
-    return chunks;
-  };
+  const getHash = (file) => {
+    return new Promise((resolve) => {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
 
-  const uploadFile = (chunks: Blob[]) => {
-    const List = [];
-    for (let i = 0; i < chunks.length; i++) {
-      const formData = new FormData();
-      formData.append("index", i.toString());
-      formData.append("total", chunks.length.toString());
-      formData.append("fileName", "file");
-      formData.append("img", chunks[i]);
-      List.push(
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
-          method: "post",
-          body: formData,
-        })
-      );
-    }
-
-    Promise.all(List).then((res) => {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/merge`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ fileName: "name", total: chunks.length }),
-      }).then((res) => {
-        console.log(res);
-      });
+      fileReader.onload = function (e) {
+        let fileMd5 = SparkMD5.ArrayBuffer.hash(e.target.result);
+        resolve(fileMd5);
+      };
     });
   };
 
-  const handleFileInput: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const files = event.target.files![0];
-    if (!files) return;
-    const chunks = chunkFile(files);
+  //  文件捆绑 切片过程放入worker线程会因为非transfer对象导致性能消耗 文件过大会导致内存溢出
+  const getChunk = async (file: File, hash: any, size = 1) => {
+    let name = file.name;
+    // 文件分割
+    const chunkFile = (file: File, size = 1) => {
+      const chunkSize = 1024 * 1024 * size;
+      const chunks: any[] = [];
+      for (let i = 0; i < file.size; i += chunkSize) {
+        chunks.push({
+          file: file.slice(i, i + chunkSize),
+          hash: hash,
+          name: name,
+          uploaded: false,
+        });
+      }
+      return chunks;
+    };
+    const chunks = chunkFile(file, size);
+    // 转化arraybuffer数组用于计算hash
+    // async function blobArrayToArrayBuffer(chunks: Blob[]) {
+    //   return Promise.all(chunks.map((chunk) => chunk.arrayBuffer()));
+    // }
+    // const chunks = await blobArrayToArrayBuffer(sliceFile(file, size));
 
-    uploadFile(chunks);
+    // const chunks = sliceFile(file, size * 1024 * 1024);
+    return chunks;
+  };
+
+  const uploadChunk = async (chunk) => {
+    let formData = new FormData();
+    formData.append("file", chunk.file);
+    formData.append("hash", chunk.hash);
+    formData.append("name", chunk.name);
+    formData.append("uploaded", chunk.uploaded);
+    formData.append("index", chunk.index);
+    let res = await fetch("/file/upload", {
+      method: "post",
+      body: formData,
+    }).then((res) => res.json());
+    return res;
+  };
+  const uploadChunks = async (chunks, maxNum = 10) => {
+    return new Promise((resolve, reject) => {
+      if (chunks.length === 0) {
+        return;
+      }
+      let requestSliceArr = [];
+      let start = 0;
+      while (start < chunks.length) {
+        requestSliceArr.push(chunks.slice(start, start + maxNum));
+        start += maxNum;
+      }
+      let index = 0;
+      let requestReaults: any = [];
+      let requestErrReaults = [];
+
+      const request = async () => {
+        if (index > requestSliceArr.length - 1) {
+          resolve(requestReaults);
+          return;
+        }
+        let sliceChunks = requestSliceArr[index];
+        Promise.all(sliceChunks.map((chunk) => uploadChunk(chunk)))
+          .then((res) => {
+            requestReaults.push(...(Array.isArray(res) ? res : []));
+            index++;
+            request();
+          })
+          .catch((err) => {
+            requestErrReaults.push(...(Array.isArray(err) ? err : []));
+            reject(requestErrReaults);
+          });
+      };
+      request();
+    });
+  };
+
+  const handleFileInput: ChangeEventHandler<HTMLInputElement> = async (
+    event
+  ) => {
+    // 文件上传
+
+    const file = event.target.files![0];
+    if (!file) return;
+    const name = file.name;
+    let hash = await getHash(file);
+    const chunks = await getChunk(file, hash);
+    console.log("chunks", chunks);
+    const continueUpload = async (file) => {
+      if (chunks.length == 0 || !hash || !file) {
+        return;
+      }
+      try {
+        await uploadChunks(chunks.filter((chunk) => !chunk.uploaded));
+        await mergeRequest(hash, name);
+      } catch (err) {
+        return {
+          mag: "文件上传错误",
+          success: false,
+        };
+      }
+    };
+    try {
+      let result = await uploadChunks(chunks, 10);
+      console.log("result", result);
+      result = await mergeRequest(hash, file.name);
+      console.log("result", result);
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+  const mergeRequest = (fileHash: any, fileName: any) => {
+    return fetch(
+      `http://localhost:3000/merge?fileHash=${fileHash}&fileName=${fileName}`,
+      {
+        method: "GET",
+      }
+    ).then((res) => res.json());
   };
 
   return (
-    <div>
+    <div onDrag={(e) => e.preventDefault()} onDrop={(e) => e.preventDefault()}>
       <input
         type="file"
         id="fileUpLoad"
