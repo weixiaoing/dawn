@@ -15,12 +15,18 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/typography": "^0.5.15",
+    "@tiptap/extension-code-block-lowlight": "^2.8.0",
+    "@tiptap/extension-link": "^2.8.0",
+    "@tiptap/pm": "^2.8.0",
+    "@tiptap/react": "^2.8.0",
+    "@tiptap/starter-kit": "^2.8.0",
     "@types/dom-view-transitions": "^1.0.4",
     "@types/spark-md5": "^3.0.4",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "framer-motion": "^11.1.7",
     "highlight.js": "^11.10.0",
+    "lowlight": "^3.1.0",
     "md-editor-rt": "^4.18.0",
     "next": "14.2.3",
     "next-contentlayer": "^0.3.4",
@@ -35,7 +41,8 @@
     "rehype-highlight": "^7.0.0",
     "socket.io-client": "^4.7.5",
     "spark-md5": "^3.0.2",
-    "worker-loader": "^3.0.8"
+    "worker-loader": "^3.0.8",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@types/react": "^18",

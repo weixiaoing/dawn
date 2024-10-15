@@ -7,4 +7,6 @@ export type CommentType = {
   content: string;
   createdAt: string;
   replies: CommentType[];
+  email?: string;
+  website?: string;
 };

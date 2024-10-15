@@ -14,12 +14,16 @@ export default function Menu({ children, className }: props) {
         onClick={() => setOpen((open) => !open)}
         className="sm:hidden"
       />
-      {open && (
-        <div className="relative">
-          <div className="absolute left-0 top-0 ">{children}</div>
+      {open ? (
+        <div className="absolute top-[0%] left-[150%] inline-block bg-white z-10 sm:hidden">
+          <div className="absolute translate-x-[-90%] translate-y-2 border-[10px] border-l-0 rounded-full  border-transparent   border-r-white "></div>
+          {children}
+        </div>
+      ) : (
+        <div className=" space-x-2 items-center hidden sm:flex ">
+          {children}
         </div>
       )}
-      <div className=" space-x-2 items-center hidden sm:flex">{children}</div>
     </main>
   );
 }

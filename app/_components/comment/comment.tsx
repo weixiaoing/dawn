@@ -1,10 +1,11 @@
 "use client";
+import { BiMessageRoundedDetail } from "react-icons/bi";
+
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 import Avatar from "../UI/avatar";
 import Button from "../UI/button";
-import Card from "../UI/card";
 import Input from "../UI/input";
 import { CommentType } from "./type";
 
@@ -29,7 +30,7 @@ export default function Comment({
 }: props) {
   const [replyShow, setReplyShow] = useState(false);
   const [replayText, setReplayText] = useState("");
-
+  const [replayout, setReplayOut] = useState(false);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -56,66 +57,68 @@ export default function Comment({
   };
 
   return (
-    <Card className="px-0" border={border}>
+    <div>
       <main className="flex space-x-1">
-        <Avatar src={avatar} alt={name} className="size-2" />
+        <div className="self-end">
+          <Avatar src={avatar} alt={name} className="size-2" />
+        </div>
         <div className="flex-1 p-2">
-          <header className="space-x-1 flex items-center justify-between">
-            <span className="font-semibold">{name}</span>
+          <header className="space-x-1 flex items-center ">
+            <h2 className="text-[20px] font-semibold">{name}</h2>
             <span className="text-gray-400 text-[0.8rem]">
-              {dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")}
+              {dayjs(createdAt).format("YYYY 年 MM 月 DD 日 ")}
             </span>
           </header>
-          <p className="bg-zinc-600/5 dark:bg-zinc-500/20 dark:bg-zinc-400 inline-block rounded-lg rounded-tl-sm p-2 text-zinc-800 dark:text-zinc-200">
+          <p
+            onMouseEnter={() => setReplayOut(true)}
+            onMouseLeave={() => setReplayOut(false)}
+            className=" box-border bg-zinc-600/5  dark:bg-zinc-400 inline-block relative rounded-lg rounded-tl-sm p-2 py-[1px] text-zinc-800 dark:text-zinc-200"
+          >
             {content}
-          </p>
 
-          <footer>
-            <div className="flex text-gray-400 text-[0.7rem]">
-              {/* <Button>
-                <span>love</span>
-              </Button>
-              <Button>
-                <span>save</span>
-              </Button> */}
-              {!noreplay && (
+            <span className="absolute bottom-0 right-0 text-[0.7rem]">
+              {!noreplay && replayout && (
                 <Button
                   onClick={() => {
                     setReplyShow((show) => !show);
                   }}
                 >
-                  <span>Replay</span>
+                  <div className="border bg-zinc-600/5  dark:bg-zinc-400  translate-x-[100%] translate-y-[100%] border-gray-400 rounded-full ">
+                    <BiMessageRoundedDetail />
+                  </div>
                 </Button>
               )}
-            </div>
-            {replyShow && (
-              <div ref={inputRef} className="border-blue-300  border p-2">
-                <Input
-                  border={false}
-                  placeholder="请输入回复内容"
-                  type="textarea"
-                  className="min-h-[6rem] mx-h-[12rem]"
-                  value={replayText}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setReplayText(e.target.value);
-                  }}
-                ></Input>
-                <footer className="flex flex-row-reverse ">
-                  <Button
-                    onClick={() => {
-                      replay();
-                    }}
-                    className="bg-blue-600 text-white"
-                  >
-                    send
-                  </Button>
-                </footer>
-              </div>
-            )}
-            {children}
-          </footer>
+            </span>
+          </p>
         </div>
       </main>
-    </Card>
+      <footer>
+        {replyShow && (
+          <div ref={inputRef} className="border-blue-300  border">
+            <Input
+              border={false}
+              placeholder="请输入回复内容"
+              type="textarea"
+              className="min-h-[6rem] mx-h-[12rem]"
+              value={replayText}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setReplayText(e.target.value);
+              }}
+            ></Input>
+            <footer className="flex flex-row-reverse ">
+              <Button
+                onClick={() => {
+                  replay();
+                }}
+                className="bg-blue-600 text-white"
+              >
+                send
+              </Button>
+            </footer>
+          </div>
+        )}
+        <div className="ml-4">{children}</div>
+      </footer>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
 import clsx from "clsx";
-import Image from "next/image";
 
 type props = {
   className?: string;
@@ -23,7 +24,18 @@ export default function Avatar({
         className
       )}
     >
-      <Image src={src} alt={alt || "avatar"} width={width} height={height} />
+      <img
+        loading="lazy"
+        className="w-full h-full object-cover"
+        src={src}
+        onError={(e) => {
+          console.log("error");
+          e.currentTarget.src = "https://github.com/shadcn.png";
+        }}
+        alt={alt || "avatar"}
+        width={width}
+        height={height}
+      />
     </div>
   );
 }

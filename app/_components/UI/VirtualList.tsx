@@ -116,9 +116,10 @@ export const VirtualList: React.FC<VirtualListProps> = ({
       ref={containerRef}
       style={{
         height: containerHeight,
-        width: "80%",
+        width: "100%",
         overflowY: "auto",
         position: "relative",
+        zIndex: "0",
       }}
     >
       <div style={{ height: `${docTotalHeight}px`, position: "relative" }}>

@@ -27,7 +27,7 @@ export default function RootLayout({
       >
         <div className="min-h-screen  bg-transparent flex-col font-normal dark:text-white ">
           <Header />
-          <main className="z-[-10] animate-fade-in max-w-screen-md p-4 mx-auto">
+          <main className="z-[-20] flex-col items-center p-4 mx-auto">
             {children}
           </main>
         </div>

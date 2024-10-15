@@ -7,7 +7,7 @@ const description = "这里是一只正在学习前端,渴望学会全栈,梦想
 export default function Home() {
   return (
     <>
-      <main className="pt-40 space-y-5 ">
+      <main className=" space-y-5 ">
         <div className="mx-auto ">
           <Image
             width={100}

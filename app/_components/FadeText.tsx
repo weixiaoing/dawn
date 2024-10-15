@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
-import { delay, motion } from "framer-motion";
 import clsx from "clsx";
+import { motion } from "framer-motion";
 
 const textVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -49,7 +48,7 @@ const FadeText = ({
         })}
       </div>
 
-      <motion.div variants={textVariants}>你好</motion.div>
+      {/* <motion.div variants={textVariants}>你好</motion.div> */}
     </motion.div>
   );
 };

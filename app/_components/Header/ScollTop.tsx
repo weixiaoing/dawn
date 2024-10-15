@@ -4,7 +4,7 @@ import Button from "../UI/button";
 import ThemeSwitcher from "./ThemeSwitcher";
 export function ScrollTop() {
   return (
-    <div className=" flex flex-col space-y-2 items-center fixed bottom-5 right-2  ">
+    <div className=" flex flex-col space-y-2 items-center fixed bottom-5 right-2 z-20  ">
       <ThemeSwitcher></ThemeSwitcher>
       <Button>
         <AiOutlineArrowUp

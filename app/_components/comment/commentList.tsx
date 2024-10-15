@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Socket } from "socket.io-client";
-import Button from "../UI/button";
 import Comment from "./comment";
 import { CommentType } from "./type";
 function MainComment({
@@ -14,12 +13,13 @@ function MainComment({
 }) {
   const [unfold, setUnfold] = useState(false);
   const renderList = useMemo(() => {
-    if (unfold) {
-      return comment.replies;
-    } else {
-      return comment.replies.slice(0, 2);
-    }
-  }, [unfold, comment.replies]);
+    // if (unfold) {
+    //   return comment.replies;
+    // } else {
+    //   return comment.replies.slice(0, 2);
+    // }
+    return comment.replies;
+  }, [comment.replies]);
   return (
     <Comment socket={socket} {...comment}>
       {comment.replies && (
@@ -29,7 +29,7 @@ function MainComment({
               <Comment noreplay socket={socket} {...replay} key={replay._id} />
             );
           })}
-          {
+          {/* {
             <footer className="text-gray-400">
               <span>共{comment.replies.length}条评论</span>
               <Button
@@ -45,7 +45,7 @@ function MainComment({
                 {unfold ? "收起" : "展开"}
               </Button>
             </footer>
-          }
+          } */}
         </div>
       )}
     </Comment>

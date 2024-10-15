@@ -33,7 +33,7 @@ export default function Card({
       )}
     >
       {cover && <>{cover}</>}
-      <div className="p-4 break-words break-all space-y-4">
+      <div className="p-4 overflow-hidden break-words break-all space-y-4">
         {header && <header>{header}</header>}
         {describtion && <div className="text-gray-400 ">{describtion}</div>}
         {children}

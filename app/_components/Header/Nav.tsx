@@ -1,8 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import GitHub from "../../../public/Header/RiGithubLine.svg";
 import { HoverTag } from "../HoverTag";
-import ThemeSwitcher from "./ThemeSwitcher";
 import Avatar from "../UI/avatar";
 import Menu from "../UI/menu";
 export function Nav() {

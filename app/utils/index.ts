@@ -3,57 +3,23 @@ import { Client } from "@notionhq/client";
 const notion = new Client({ auth: process.env.NOTION_KEY });
 const notionNew = new Client();
 const cache = new Map();
-// const getBlogList = async () => {
-//   try {
-//     if (cache.has("blogList")) {
-//       const res = cache.get("blogList");
-
-//       return res;
-//     }
-//     let res = await notion.databases.query({
-//       database_id: process.env.NOTION_ID!,
-//       filter: {
-//         and: [
-//           {
-//             property: "status",
-//             select: {
-//               equals: "Published",
-//             },
-//           },
-//           {
-//             property: "type",
-//             select: {
-//               equals: "Post",
-//             },
-//           },
-//         ],
-//       },
-//       sorts: [
-//         {
-//           property: "date",
-//           direction: "descending",
-//         },
-//       ],
-//     });
-//     const data = (res.results as any[]).map((item) => {
-//       return {
-//         id: item.id,
-//         created_time: item?.created_time,
-//         title: item?.properties.title.title[0].plain_text,
-//       };
-//     });
-//     cache.set("blogList", data);
-//     return data;
-//   } catch (error) {
-//     return [];
-//   }
-// };
-const getBlogList = async (): Promise<Result<BlogData[]>> => {
+const getBlogList = async ({
+  skip,
+  limit,
+}: {
+  skip: number;
+  limit: number;
+}): Promise<Result<BlogData[]>> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/post/findPostMeta`,
+      `${process.env.NEXT_PUBLIC_API_URL}/post/findWithPage`,
       {
+        body: JSON.stringify({ skip, limit }),
         method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-cache",
       }
     ).then((res) => res.json());
     console.log(res);

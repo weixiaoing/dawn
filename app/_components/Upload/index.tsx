@@ -1,8 +1,8 @@
-import { ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler } from "react";
 import SparkMD5 from "spark-md5";
 const FileUploader = () => {
-  const [files, setFiles] = useState<File[]>([]);
-  const [progressList, setProgressList] = useState({ val: [] });
+  // const [files, setFiles] = useState<File[]>([]);
+  // const [progressList, setProgressList] = useState({ val: [] });
   const getHash = (file) => {
     return new Promise((resolve) => {
       const fileReader = new FileReader();
@@ -33,13 +33,7 @@ const FileUploader = () => {
       return chunks;
     };
     const chunks = chunkFile(file, size);
-    // 转化arraybuffer数组用于计算hash
-    // async function blobArrayToArrayBuffer(chunks: Blob[]) {
-    //   return Promise.all(chunks.map((chunk) => chunk.arrayBuffer()));
-    // }
-    // const chunks = await blobArrayToArrayBuffer(sliceFile(file, size));
 
-    // const chunks = sliceFile(file, size * 1024 * 1024);
     return chunks;
   };
 
@@ -147,7 +141,7 @@ const FileUploader = () => {
       <label htmlFor="fileUpLoad">
         <span className="cursor-pointer border p-1">Upload</span>
       </label>
-      <section className="space-y-2">
+      {/* <section className="space-y-2">
         {" "}
         {files.map((file, index) => (
           <div
@@ -164,7 +158,7 @@ const FileUploader = () => {
             </button>
           </div>
         ))}
-      </section>
+      </section> */}
     </div>
   );
 };
