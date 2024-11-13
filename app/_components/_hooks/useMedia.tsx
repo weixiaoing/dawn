@@ -35,13 +35,20 @@ const useMediaStream = () => {
         }
       });
   }
+  function stopMediaStream() {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach((track) => track.stop());
+      setMediaStream(undefined);
+    }
+  }
 
   useEffect(() => {
     getMediaStream();
     return () => {
-      setMediaStream(undefined);
+      console.log("stop");
+      stopMediaStream();
     };
   }, []);
-  return mediaStream;
+  return { mediaStream, stopMediaStream };
 };
 export default useMediaStream;

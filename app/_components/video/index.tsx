@@ -15,7 +15,7 @@ export default function Video() {
   const [errorSetting, setErrorSetting] = useState<string>("");
   const myVideo = useRef<HTMLVideoElement>(null);
   const peerVideo = useRef<HTMLVideoElement>(null);
-  const Stream = useMediaStream();
+  const { mediaStream: Stream, stopMediaStream } = useMediaStream();
   const [linked, setLinked] = useState(false);
   const [videoChanged, setVideoChanged] = useState(false);
   const hangDown = () => {

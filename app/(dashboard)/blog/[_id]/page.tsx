@@ -1,16 +1,14 @@
 import Chat from "@/_components/chat";
 import Editor from "@/_components/Editor";
+import Toc from "@/_components/Toc";
 import Card from "@/_components/UI/card";
 import { getPost } from "@/utils";
 import dayjs from "dayjs";
 import "highlight.js/styles/atom-one-dark.css";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import Summary from "./Summary";
+import Tool from "./Tool";
 export default async function Article({ params }: { params: { _id: string } }) {
-  // if (typeof window == "undefined") {
-  //   console.log("server component");
-  // } else {
-  //   console.log("client component");
-  // }
   if (params._id.length == 0) return null;
   const data = await getPost({
     _id: params._id,
@@ -23,9 +21,9 @@ export default async function Article({ params }: { params: { _id: string } }) {
   return (
     <>
       <div className="flex justify-center gap-4 mx-auto max-w-[1024px]">
-        <div className="animate-fade-in max-w-screen-md flex-1">
+        <div className="animate-fade-in mx-auto max-w-screen-md flex-1">
           <Card
-            className="bg-inherit"
+            className="p-0"
             // cover={
             //   <ErrorImg
             //     src={data?.cover}
@@ -53,15 +51,31 @@ export default async function Article({ params }: { params: { _id: string } }) {
                     <li>阅读量: {data?.watched + ""}</li>
                     <li>点赞数: {data?.like + ""}</li>
                   </div>
+                  <Summary data={data.content!}></Summary>
                 </header>
               </>
             }
           >
             {<Editor content={data?.content || ""} />}
+
+            {/* <ReactMarkdown>{data.content}</ReactMarkdown> */}
           </Card>
 
-          <Chat room={params._id}></Chat>
+          <Chat className="min-h-[500px]" room={params._id}></Chat>
         </div>
+        <main className="w-[200px] mt-[100px] sticky top-[40px]">
+          <div
+            className=" max-h-[200px] overflow-y-auto  "
+            style={{ scrollbarWidth: "none" }}
+          >
+            <Toc />
+          </div>
+          <hr
+            className="bg-black dark:bg-white my-4 h-[2px] "
+            style={{ opacity: 0.3 }}
+          />
+          <Tool></Tool>
+        </main>
       </div>
     </>
   );

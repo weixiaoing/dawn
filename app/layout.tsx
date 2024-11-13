@@ -1,11 +1,11 @@
-import "@radix-ui/themes/styles.css";
+// import "@radix-ui/themes/styles.css";
 import clsx from "clsx";
 import type { Metadata } from "next";
-import { Roboto_Mono } from "next/font/google";
-import { Header } from "./_components/Header";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
+import ReactQueryProvider from "./utils/Providers/ReactQueryProvider";
 
-const roboto_mono = Roboto_Mono({ subsets: ["latin"], display: "swap" });
+const roboto_mono = Montserrat({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Dawnot Blog",
@@ -19,18 +19,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Dawn Blog</title>
+      </head>
       <body
         className={clsx(
           roboto_mono.className,
-          "dark:bg-[rgb(48,48,48)] bg-[rgb(241,242,243)] "
+          "dark:bg-[rgb(48,48,48)] bg-[rgb(254,252,253)]"
         )}
       >
-        <div className="min-h-screen  bg-transparent flex-col font-normal dark:text-white ">
-          <Header />
-          <main className="z-[-20] flex-col items-center p-4 mx-auto">
-            {children}
-          </main>
-        </div>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );

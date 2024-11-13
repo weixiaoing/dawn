@@ -22,5 +22,3 @@
 .wave:nth-child(3) {
   animation-delay: 0.2s;
 }
-
-/* 以此类推，你可以根据文本的长度扩展这个列表 */

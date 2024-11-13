@@ -8,25 +8,18 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { AiFillEye, AiFillLike } from "react-icons/ai";
 import { MdDateRange } from "react-icons/md";
+import "./index.css";
 export default function Blog() {
-  return (
-    <div className=" pt-10">
-      <BlogList />
-    </div>
-  );
-}
-const limit = 10;
-const threshold = 10;
-function BlogList() {
-  const [data, setData] = useState<BlogData[]>([]);
+  const [data, setData] = useState<BlogData[]>();
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const handleScroll = useCallback(() => {
     const scrollTop = window.scrollY;
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
+
     if (
-      hasMore === true &&
+      hasMore == true &&
       documentHeight - scrollTop - windowHeight < threshold
     ) {
       setLoading(true);
@@ -38,119 +31,48 @@ function BlogList() {
   }, [hasMore]);
 
   useEffect(() => {
+    if (!data) return;
     if (loading && hasMore) {
       getBlogList({ skip: data.length, limit: 10 }).then((res) => {
         let result = res.data;
-
         if (result.length == 0) {
-          console.log("到底了");
           setHasMore(false);
         }
-        setData(data.concat(result));
+        setData((data) => data.concat(result));
         setLoading(false);
       });
     }
-  }, [loading, hasMore]);
+  }, [hasMore, loading]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
-    getBlogList({ skip: data.length, limit: 10 }).then((res) => {
-      console.log("test");
-      let result = res.data;
-      setData(result);
-    });
+    if (sessionStorage.getItem("blog")) {
+      setData(JSON.parse(sessionStorage.getItem("blog") as string));
+    } else
+      getBlogList({ skip: data?.length || 0, limit: 10 }).then((res) => {
+        let result = res.data;
+        sessionStorage.setItem("blog", JSON.stringify(result));
+        setData(result);
+      });
   }, []);
-
+  if (!data) return null;
   return (
     <div className="max-w-5xl mx-auto">
-      {/* <VirtualList
-        containerHeight={900}
-        bufferCount={5}
-        list={data}
-        renderItem={(item) => (
-          <div className="pb-4">
-            <Card
-              // cover={
-              //   <Link href={`/blog/${item._id}`}>
-              //     <div>
-              //       <img
-              //         className="w-full min-h-[100px] max-h-[200px] dim-image  "
-              //         src={item.cover}
-              //         loading="lazy"
-              //         srcSet="https://www.notion.so/images/page-cover/solid_beige.png"
-              //         alt="cover"
-              //       />
-              //     </div>
-              //   </Link>
-              // }
-              hoverable
-              className="p-0"
-              key={item._id}
-              header={
-                <div className="space-y-2">
-                  <Link href={`/blog/${item._id}`}>
-                    <h1 className="text-xl dark:text-zinc-200 hover:font-medium">
-                      {item.title}
-                    </h1>
-                  </Link>
-                  <div className="flex gap-2">
-                    {item.tags.map((tag: string) => (
-                      <div
-                        className="bg-[rgb(209,230,181)] p-1 rounded-md text-sm text-[#000000cc]"
-                        key={tag}
-                      >
-                        <span>{tag}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              }
-              describtion={item.summary}
-              footer={
-                <div>
-                  <span className="text-gray-400 text-center text-sm flex gap-2 items-center ">
-                    <MdDateRange />
-                    {dayjs(item.date).locale("zh").format("YYYY年M月DD日")}
-                    <AiFillEye />
-                    {<>{item.watched}</>}
-                    <AiFillLike />
-                    {<>{item.like}</>}
-                  </span>
-                </div>
-              }
-            ></Card>
-          </div>
-        )}
-      /> */}
       {data.map((item, index) => {
         return (
-          <div key={index} className="pb-4">
+          <div key={index} id="hover-box" className="pb-4">
             <Card
-              // cover={
-              //   <Link href={`/blog/${item._id}`}>
-              //     <div>
-              //       <img
-              //         className="w-full min-h-[100px] max-h-[200px] dim-image  "
-              //         src={item.cover}
-              //         loading="lazy"
-              //         srcSet="https://www.notion.so/images/page-cover/solid_beige.png"
-              //         alt="cover"
-              //       />
-              //     </div>
-              //   </Link>
-              // }
-              hoverable
-              className="p-0"
+              className="p-0 "
               key={item._id}
               header={
                 <div className="space-y-2">
                   <Link href={`/blog/${item._id}`}>
-                    <h1 className="text-xl dark:text-zinc-200 hover:font-medium">
+                    <h1 className="text-xl dark:text-zinc-200 ">
                       {item.title}
                     </h1>
                   </Link>
@@ -206,9 +128,11 @@ function BlogList() {
               ></path>
             </svg>
           )}
-          {!hasMore && <h1>到底啦</h1>}
+          {!hasMore && <h1 onClick={() => console.log(hasMore)}>到底啦</h1>}
         </div>
       )}
     </div>
   );
 }
+const limit = 10;
+const threshold = 10;

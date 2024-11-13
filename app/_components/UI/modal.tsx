@@ -1,6 +1,5 @@
 // "use client";
-import React from "react";
-import { createPortal } from "react-dom";
+import React, { useState } from "react";
 
 type props = {
   display?: React.ReactNode;
@@ -12,11 +11,20 @@ type props = {
   open?: boolean;
   border?: boolean;
 };
-export default function Modal({ children, open, onCancel, display }: props) {
+export default function Modal({ children, onCancel, display }: props) {
+  const [show, setShow] = useState(false);
   return (
     <>
-      {display}
-      {open && (
+      {display && (
+        <div
+          onClick={(e) => {
+            setShow((v) => !v);
+          }}
+        >
+          {display}
+        </div>
+      )}
+      {show && (
         <div
           onClick={(e) => {
             if (e.target === e.currentTarget) {

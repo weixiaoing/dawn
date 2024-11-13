@@ -1,5 +1,4 @@
 "use client";
-import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { createContext } from "vm";
 import { Skeleton } from "../UI/Skeleton";
@@ -19,7 +18,12 @@ export default function Chat({
 }) {
   const { socket } = useSocket({ room });
   const [text, setText] = useState<string>("");
-  const [message, setMessage] = useState<CommentType>({});
+  const [message, setMessage] = useState<CommentType>({
+    content: "",
+    name: "",
+    email: "",
+    website: "",
+  });
   const [list, setList] = useState<CommentType[]>([]);
   const [SkeletonShow, setSkeletonShow] = useState<boolean>(true);
   const SocketContext = createContext();
@@ -57,7 +61,7 @@ export default function Chat({
   const send = async (e: any) => {
     e.preventDefault();
 
-    if (message.content.trim() !== "") {
+    if (message?.content.trim() !== "") {
       socket.emit("send", {
         room,
         message,
@@ -72,15 +76,16 @@ export default function Chat({
   };
 
   return (
-    <div className={clsx("mx-auto mt-4", props?.className)}>
-      <Card
-        header={
+    <Card
+      className="min-h-[600px] bg-white mt-10"
+      header={
+        <>
           <div className="grid grid-cols-3 gap-2 ">
             <input
               placeholder="昵称"
-              className="bg-[rgb(241,242,243)] text-[12px] rounded-md p-2 py-1"
+              className="bg-[rgb(241,242,243)] text-[12px]  rounded-md p-2 py-1"
               type="text"
-              value={message.name}
+              value={message?.name}
               onChange={(e) => {
                 setMessage({
                   ...message,
@@ -113,47 +118,45 @@ export default function Chat({
               }}
             />
           </div>
-        }
-      >
-        <div className="bg-[rgb(241,242,243)] rounded-md p-2">
-          <Input
-            border={false}
-            placeholder="请输入回复内容"
-            type="textarea"
-            className="min-h-[6rem] mx-h-[12rem] bg-transparent p-1"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setMessage({
-                ...message,
-                content: e.target.value,
-              })
-            }
-            value={message.content}
-          ></Input>
-          <footer className="flex flex-row-reverse ">
-            <Button onClick={send} className="bg-blue-600 text-white">
-              send
-            </Button>
-          </footer>
-        </div>
-        <div className="flex-grow">
-          <ul className="w-auto  ">
-            {list.length !== 0 && (
-              <CommentList socket={socket} comments={list} />
-            )}
-            {!SkeletonShow && list.length === 0 && (
-              <li className="mt-[30%] text-center">
-                <h1>暂无聊天记录</h1>
-              </li>
-            )}
-            {SkeletonShow && (
-              <>
-                <Skeleton className="rounded-full w-[60px] h-[60px] " />
-                <Skeleton className="w-[50%] h-5 " />
-              </>
-            )}
-          </ul>
-        </div>
-      </Card>
-    </div>
+          <div className="bg-[rgb(241,242,243)] mt-4 rounded-md p-2">
+            <Input
+              border={false}
+              placeholder="请输入回复内容"
+              type="textarea"
+              className="min-h-[6rem] mx-h-[12rem] bg-transparent p-1"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setMessage({
+                  ...message,
+                  content: e.target.value,
+                })
+              }
+              value={message.content}
+            ></Input>
+            <footer className="flex flex-row-reverse ">
+              <Button onClick={send} className="bg-blue-600 text-white">
+                send
+              </Button>
+            </footer>
+          </div>
+        </>
+      }
+    >
+      <div className="flex-grow">
+        <ul className="w-auto  ">
+          {list.length !== 0 && <CommentList socket={socket} comments={list} />}
+          {!SkeletonShow && list.length === 0 && (
+            <li className="mt-[30%] text-center">
+              <h1>暂无聊天记录</h1>
+            </li>
+          )}
+          {SkeletonShow && (
+            <>
+              <Skeleton className="rounded-full w-[60px] h-[60px] " />
+              <Skeleton className="w-[50%] h-5 " />
+            </>
+          )}
+        </ul>
+      </div>
+    </Card>
   );
 }

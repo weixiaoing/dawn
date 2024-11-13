@@ -1,9 +1,16 @@
 import Link from "next/link";
 import GitHub from "../../../public/Header/RiGithubLine.svg";
-import { HoverTag } from "../HoverTag";
 import Avatar from "../UI/avatar";
 import Menu from "../UI/menu";
+
 export function Nav() {
+  const menu = [
+    { name: "博客", link: "/blog" },
+    // { name: "项目", link: "/project" },
+    { name: "视频", link: "/video" },
+    { name: "友链", link: "/friends" },
+    { name: "关于", link: "/homeCard" },
+  ];
   return (
     <nav className="p-4 flex justify-between max-w-[1024px] mx-auto ">
       <Link className="order-2 sm:order-1" href={"/"}>
@@ -13,17 +20,17 @@ export function Nav() {
         />
       </Link>
 
-      <Menu className="order-1 sm:order-[2]">
-        <Link href={"/blog"}>
-          <HoverTag>Blog</HoverTag>
-        </Link>
-
-        <Link href={"/project"}>
-          <HoverTag>Project</HoverTag>
-        </Link>
-        <Link href={"/video"}>
-          <HoverTag>video</HoverTag>
-        </Link>
+      <Menu className="box-border px-4 order-1 boreder-none p-0 sm:order-[2] overflow-hidden shadow-md rounded-full flex items-center  justify-around border border-gray-200/85  ">
+        {menu.map((item) => {
+          return (
+            <div
+              key={item.name}
+              className="px-2 h-full  py-1 box-border  text-[12px] flex justify-center items-start"
+            >
+              <Link href={item.link}>{item.name}</Link>
+            </div>
+          );
+        })}
       </Menu>
 
       <a
@@ -33,9 +40,7 @@ export function Nav() {
         rel="noopener noreferrer"
         title="Dawn's GitHub"
       >
-        <HoverTag className="flex items-center">
-          <GitHub width={24} height={24} alt="Dawn" title="Dawn"></GitHub>
-        </HoverTag>
+        <GitHub width={24} height={24} alt="Dawn" title="Dawn"></GitHub>
       </a>
     </nav>
   );

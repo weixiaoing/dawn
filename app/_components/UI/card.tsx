@@ -11,6 +11,7 @@ type props = {
   coverClick?: () => void;
   hoverable?: boolean;
   cover?: React.ReactNode;
+  [key: string]: any;
 };
 export default function Card({
   children,
@@ -20,16 +21,16 @@ export default function Card({
   describtion,
   border,
   cover,
-
   hoverable = false,
+  ...props
 }: props) {
   return (
     <div
       className={clsx(
-        " rounded-lg !important overflow-hidden bg-white dark:bg-[rgb(66,66,66)] ",
-        border && "border border-zinc-200  dark:border-opacity-20 ",
-        hoverable && "hover:shadow-md",
-        className
+        " rounded-lg  overflow-hidden  ",
+        className,
+        border && "border border-slate-200  dark:border-opacity-20 ",
+        hoverable && "hover:shadow-md"
       )}
     >
       {cover && <>{cover}</>}

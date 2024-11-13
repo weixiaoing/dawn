@@ -14,6 +14,9 @@ const getBlogList = async ({
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/post/findWithPage`,
       {
+        next: {
+          revalidate: 60,
+        },
         body: JSON.stringify({ skip, limit }),
         method: "post",
         headers: {
