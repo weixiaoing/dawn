@@ -1,8 +1,9 @@
 // "use client";
-import React, { useState } from "react";
+import React from "react";
 
 type props = {
   display?: React.ReactNode;
+  visible: boolean;
   children: React.ReactNode;
   className?: string;
   onClose?: () => void;
@@ -11,29 +12,38 @@ type props = {
   open?: boolean;
   border?: boolean;
 };
-export default function Modal({ children, onCancel, display }: props) {
-  const [show, setShow] = useState(false);
+export default function Modal({
+  children,
+  onOk,
+  onCancel,
+  display,
+  visible = false,
+}: props) {
   return (
     <>
-      {display && (
+      {visible && (
         <div
+          className=" overscroll-contain overflow-auto bg-gray-100/80  flex  justify-center fixed left-0 top-0 items-center z-50  w-full h-full"
           onClick={(e) => {
-            setShow((v) => !v);
-          }}
-        >
-          {display}
-        </div>
-      )}
-      {show && (
-        <div
-          onClick={(e) => {
+            e.preventDefault();
             if (e.target === e.currentTarget) {
               onCancel?.();
             }
           }}
-          className="fixed left-0 top-0 bg-slate-500 bg-opacity-35 w-screen h-screen"
+          onScroll={(e) => {
+            e.preventDefault();
+          }}
+          onScrollCapture={(e) => {
+            e.preventDefault();
+          }}
         >
-          {children}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {children}
+          </div>
         </div>
       )}
     </>

@@ -2,6 +2,7 @@
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { JotaiProvider } from "./_components/providers/JotaiProvider";
 import "./globals.css";
 import ReactQueryProvider from "./utils/Providers/ReactQueryProvider";
 
@@ -28,7 +29,9 @@ export default function RootLayout({
           "dark:bg-[rgb(48,48,48)] bg-[rgb(254,252,253)]"
         )}
       >
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <JotaiProvider>{children}</JotaiProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

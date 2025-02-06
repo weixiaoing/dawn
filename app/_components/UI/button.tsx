@@ -1,16 +1,17 @@
 import clsx from "clsx";
-import { ReactEventHandler, useState } from "react";
-import Card from "./card";
+import { ReactEventHandler } from "react";
 
 type props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   onClick?: ReactEventHandler<HTMLButtonElement>;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   loading?: boolean;
   onOk?: () => void;
+  animation?: boolean;
   onCancel?: () => void;
+  display?: string;
   border?: boolean;
 };
 
@@ -21,13 +22,16 @@ export default function Button({
   type,
   disabled,
   loading,
+  display,
+  animation = false,
   border,
 }: props) {
   return (
     <button
       className={clsx(
-        "p-1 inline-flex rounded outline-none items-center justify-center active:font-bold hover:font-medium ",
+        "p-1 inline-flex rounded outline-none items-center justify-center  ",
         border && "border border-blue-400 text-blue-400",
+        animation && "hover:scale-105 transition-[scale] active:scale-95",
         className
       )}
       onClick={onClick}
@@ -55,7 +59,7 @@ export default function Button({
           ></path>
         </svg>
       )}
-
+      {display && <span className="content-center">{display}</span>}
       {children}
     </button>
   );

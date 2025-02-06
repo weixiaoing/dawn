@@ -29,14 +29,14 @@ export default function Card({
       className={clsx(
         " rounded-lg  overflow-hidden  ",
         className,
-        border && "border border-slate-200  dark:border-opacity-20 ",
+        border && "border border-slate-200  dark:border-opacity-5 ",
         hoverable && "hover:shadow-md"
       )}
     >
       {cover && <>{cover}</>}
-      <div className="p-4 overflow-hidden break-words break-all space-y-4">
+      <div className="p-2 overflow-hidden break-words break-all space-y-4">
         {header && <header>{header}</header>}
-        {describtion && <div className="text-gray-400 ">{describtion}</div>}
+        {describtion && <div>{describtion}</div>}
         {children}
         {footer && <footer>{footer}</footer>}
       </div>

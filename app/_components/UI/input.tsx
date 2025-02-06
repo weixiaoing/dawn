@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import clsx from "clsx";
-import { forwardRef } from "react";
+import { DetailedHTMLProps, forwardRef, InputHTMLAttributes } from "react";
 type props = {
   border?: boolean;
   className?: string;
@@ -20,7 +20,11 @@ const Input = forwardRef(
       placeholder,
       children,
       ...props
-    }: props,
+    }: props &
+      DetailedHTMLProps<
+        InputHTMLAttributes<HTMLInputElement>,
+        HTMLInputElement
+      >,
     ref: React.Ref<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     switch (type) {
@@ -28,10 +32,13 @@ const Input = forwardRef(
         return (
           <input
             className={clsx(
-              "outline-none p-2",
-              border && "border border-zinc-200  dark:border-opacity-20"
+              "outline-none w-[100%] px-2 py-1 bg-gray-100/80 rounded-sm text-[14px]",
+              border && "border border-zinc-200  dark:border-opacity-20",
+              "focus:bg-opacity-90 focus:border-slate-800/40 focus:border  focus:shadow-md focus:shadow-green-400/40",
+              className
             )}
             type="text"
+            placeholder={placeholder}
             {...props}
             ref={ref}
           />
@@ -39,20 +46,16 @@ const Input = forwardRef(
 
       case "textarea":
         return (
-          <div>
-            <textarea
-              className={clsx(
-                "outline-none w-[100%] resize-none scrolll text-black",
-                border && "focus:border-blue-300 focus:border",
-                className
-              )}
-              value={value}
-              placeholder={placeholder}
-              {...props}
-              ref={ref}
-            ></textarea>
-            {children}
-          </div>
+          <textarea
+            className={clsx(
+              "outline-none w-[100%] min-h-[100px]  resize-none scrolll text-black bg-transparent",
+              className
+            )}
+            value={value}
+            placeholder={placeholder}
+            {...props}
+            ref={ref}
+          ></textarea>
         );
       default:
         return (

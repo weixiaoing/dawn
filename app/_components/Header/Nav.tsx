@@ -6,10 +6,10 @@ import Menu from "../UI/menu";
 export function Nav() {
   const menu = [
     { name: "博客", link: "/blog" },
-    // { name: "项目", link: "/project" },
+    { name: "项目", link: "/project" },
     { name: "视频", link: "/video" },
     { name: "友链", link: "/friends" },
-    { name: "关于", link: "/homeCard" },
+    { name: "动态", link: "/talk" },
   ];
   return (
     <nav className="p-4 flex justify-between max-w-[1024px] mx-auto ">
@@ -20,7 +20,7 @@ export function Nav() {
         />
       </Link>
 
-      <Menu className="box-border px-4 order-1 boreder-none p-0 sm:order-[2] overflow-hidden shadow-md rounded-full flex items-center  justify-around border border-gray-200/85  ">
+      <Menu className="box-border px-4 order-1 boreder-none p-0 sm:order-[2] overflow-hidden shadow-md rounded-full flex items-center  justify-around border border-gray-200/85 dark:border-gray-700/60  ">
         {menu.map((item) => {
           return (
             <div

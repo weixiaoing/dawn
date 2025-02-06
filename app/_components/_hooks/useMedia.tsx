@@ -9,31 +9,35 @@ const useMediaStream = () => {
       video: true,
     };
     let attempt = 0;
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        stream.getTracks().forEach((track) => {
-          track.onended = () => {
+    return () => {
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((stream) => {
+          stream.getTracks().forEach((track) => {
+            track.onended = () => {
+              attempt++;
+              console.log("MediaStreamTrack ended. Attempting to reacquire.");
+              getMediaStream();
+            };
+          });
+          // 媒体流获取成功的处理逻辑
+          setMediaStream(stream);
+          // 将 stream 绑定到视频元素等
+        })
+        .catch((err) => {
+          console.error("Error acquiring media stream:", err);
+          if (attempt < maxAttempts) {
             attempt++;
-            console.log("MediaStreamTrack ended. Attempting to reacquire.");
+            console.log(`Retrying... Attempt ${attempt}/${maxAttempts}`);
             getMediaStream();
-          };
+          } else {
+            console.log(
+              "Max attempts reached. Unable to acquire media stream."
+            );
+            // 达到最大尝试次数后的处理逻辑
+          }
         });
-        // 媒体流获取成功的处理逻辑
-        setMediaStream(stream);
-        // 将 stream 绑定到视频元素等
-      })
-      .catch((err) => {
-        console.error("Error acquiring media stream:", err);
-        if (attempt < maxAttempts) {
-          attempt++;
-          console.log(`Retrying... Attempt ${attempt}/${maxAttempts}`);
-          getMediaStream();
-        } else {
-          console.log("Max attempts reached. Unable to acquire media stream.");
-          // 达到最大尝试次数后的处理逻辑
-        }
-      });
+    };
   }
   function stopMediaStream() {
     if (mediaStream) {
@@ -43,11 +47,12 @@ const useMediaStream = () => {
   }
 
   useEffect(() => {
-    getMediaStream();
+    getMediaStream()();
     return () => {
       console.log("stop");
       stopMediaStream();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return { mediaStream, stopMediaStream };
 };

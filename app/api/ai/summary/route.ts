@@ -1,30 +1,33 @@
+import { createSummary, getSummary } from "@/utils";
 import type { NextRequest } from "next/server";
 import openai from "../config";
 
 export const dynamic = "force-dynamic";
 export const POST = async (req: NextRequest) => {
-  const { data, language } = await req.json();
+  const { postId, content, language } = await req.json();
 
-  const text = data as string;
+  const text = content as string;
   const lang = language || ("zh" as string);
+  const sqlResult = await getSummary(postId);
+  console.log("summaryData", sqlResult);  
 
+  let summary = "";
   // 查询数据库中是否有summary
 
-  // if (sqlResult.rows.length > 0) {
-  //   return new Response(
-  //     JSON.stringify({
-  //       summary: sqlResult.rows[0].summary,
-  //       source: "db-cache",
-  //     }),
-  //     {
-  //       status: 200,
-  //       headers: {
-  //         "content-type": "application/json; charset=UTF-8",
-  //       },
-  //     }
-  //   );
-  // }
-
+  if (sqlResult.data.length > 0) {
+    return new Response(
+      JSON.stringify({
+        summary: sqlResult.data[0]?.content,
+        source: "db-cache",
+      }),
+      {
+        status: 200,
+        headers: {
+          "content-type": "application/json; charset=UTF-8",
+        },
+      }
+    );
+  }
   const completion = await openai.chat.completions.create({
     messages: [
       {
@@ -38,10 +41,10 @@ CONCISE SUMMARY:`,
     model: "gpt-3.5-turbo",
   });
 
-  const summary = completion.choices[0].message.content;
+  summary = completion.choices[0].message.content!;
 
-  //todo  插入数据库
-  // await sql`insert into summary (api_endpoint, summary, lang, modified, cid) values (${API_URL}, ${summary}, ${lang}, ${modified}, ${cid})`;
+  //  插入数据库
+  await createSummary(postId, summary);
 
   return new Response(
     JSON.stringify({

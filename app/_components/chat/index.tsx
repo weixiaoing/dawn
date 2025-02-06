@@ -1,4 +1,5 @@
 "use client";
+import { headers } from "next/headers";
 import { useEffect, useState } from "react";
 import { createContext } from "vm";
 import { Skeleton } from "../UI/Skeleton";
@@ -38,9 +39,11 @@ export default function Chat({
       });
       socket.on("listInit", (data) => {
         setList(data);
+        console.log("link room sucess ", data);
         setSkeletonShow(false);
       });
       socket.on("subChatOut", (data) => {
+        console.log("subChatOut", data);
         setList((list) => {
           return list.map((item) => {
             if (item._id === data.parentId) {
@@ -60,6 +63,8 @@ export default function Chat({
 
   const send = async (e: any) => {
     e.preventDefault();
+    const ip = headers().get("x-real-ip");
+    console.log(ip);
 
     if (message?.content.trim() !== "") {
       socket.emit("send", {

@@ -20,7 +20,7 @@ export default function Avatar({
   return (
     <div
       className={clsx(
-        "inline-block border-solid border-x-2 rounded-[30%] overflow-hidden size-[2rem]",
+        "inline-block  rounded-[30%] overflow-hidden size-[2rem]",
         className
       )}
     >

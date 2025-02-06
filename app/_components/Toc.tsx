@@ -15,6 +15,8 @@ export default function Toc() {
   }, [Article]);
   const toc = useMemo(() => {
     return Array.from(headings).map((el, index) => {
+      console.log("height", el.clientHeight);
+
       return {
         id: el.id,
         index: isNaN(index) ? -1 : index,
@@ -27,12 +29,12 @@ export default function Toc() {
   useEffect(() => {
     setArticle(document.getElementById("editor")!);
   }, []);
-  const list = useMemo(() => [1, 2, 3, 4], []);
+  // const list = useMemo(() => [1, 2, 3, 4], []);
 
   return (
     <>
       {toc.length > 0 && (
-        <div >
+        <div>
           {" "}
           <MotionToLeft stiffness={100}>
             <Card>
@@ -44,7 +46,7 @@ export default function Toc() {
                         behavior: "smooth",
                       });
                     }}
-                    className={`cursor-pointer text-[12px] text-[rgb(98,98,100)] text-ellipsis overflow-hidden whitespace-nowrap`}
+                    className={`cursor-pointer text-[12px] text-gray-800/80 dark:text-slate-200 dark:text-slate-200/50 hover:dark:text-slate-200/80 hover:scale-105 duration-200 active:text-slate-200 text-ellipsis overflow-hidden whitespace-nowrap`}
                     style={{ marginLeft: `${(item.depth - 1) * 10}px` }}
                     key={item.index}
                   >

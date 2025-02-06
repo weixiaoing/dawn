@@ -1,5 +1,4 @@
 "use client";
-import { BiTransfer } from "react-icons/bi";
 
 import { useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
@@ -9,7 +8,35 @@ import useSocket from "@/_components/_hooks/useSocket";
 import clsx from "clsx";
 import Button from "../UI/button";
 
-export default function Video() {
+export class MultiPartyConference {
+  private peerConnections: Map<string, RTCPeerConnection> = new Map();
+  private localStream: MediaStream | null = null;
+  private remoteStreams: Map<string, MediaStream> = new Map();
+  constructor(
+    private config: RTCConfiguration = {
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    },
+    private onRemoteStream?: (userId: string, stream: MediaStream) => void,
+    private onPeerDisconnected?: (userId: string) => void
+  ) {}
+  async initLocalStream(
+    constraints: MediaStreamConstraints = { video: true, audio: true }
+  ) {
+    try {
+      this.localStream = await navigator.mediaDevices.getUserMedia(constraints);
+      return this.localStream;
+    } catch (error) {
+      console.error("获取本地媒体流失败", error);
+      throw error;
+    }
+  }
+
+  async createPeerConnection(userId: string) {
+    const peerConnection = new RTCPeerConnection(this.config);
+  }
+}
+
+export default function VideoBase() {
   const cache = useRef(false);
   const socket = useSocket();
   const [errorSetting, setErrorSetting] = useState<string>("");
@@ -19,14 +46,18 @@ export default function Video() {
   const [linked, setLinked] = useState(false);
   const [videoChanged, setVideoChanged] = useState(false);
   const hangDown = () => {
-    if (socket.current)
+    if (socket.current) {
       socket.current.emit("hang-down-server", { roomId: "Home" });
+      peerVideo.current!.srcObject = null;
+    }
   };
   const pushStream = async (
     stream: MediaStream,
     socket: Socket,
     roomId = "Home"
   ) => {
+    console.log("pushStream");
+
     const configuration = {
       iceServers: [
         {
@@ -40,7 +71,7 @@ export default function Video() {
     const peer = new RTCPeerConnection(configuration);
     socket.on("hang-down", () => {
       console.log("yes quit");
-      peerVideo.current!.srcObject = null;
+      if (peerVideo.current?.srcObject) peerVideo.current.srcObject = null;
     });
 
     const peerStream = new MediaStream();
@@ -84,6 +115,8 @@ export default function Video() {
           sdp,
         })
         .catch((err) => {
+          console.log("get remote error");
+
           console.log(err);
         });
       peer.createAnswer().then((answer) => {
@@ -99,7 +132,11 @@ export default function Video() {
     socket.on("answer", ({ sdp }) => {
       if (flag == 0) {
         flag = 1;
-        peer.setRemoteDescription({ type: "answer", sdp });
+        try {
+          peer.setRemoteDescription({ type: "answer", sdp });
+        } catch (error) {
+          console.log("error");
+        }
       }
     });
 
@@ -111,54 +148,61 @@ export default function Video() {
   };
   useEffect(() => {
     Stream && (myVideo.current!.srcObject = Stream);
-
     Stream && socket.current && pushStream(Stream, socket.current!);
     return () => {
       hangDown();
-      socket.current?.off("call");
-      socket.current?.off("answer");
-      socket.current?.off("candidate");
-      socket.current?.off("hang-down");
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const tmpSocket = socket.current;
+      if (tmpSocket) {
+        tmpSocket.off("call");
+        tmpSocket.off("answer");
+        tmpSocket.off("candidate");
+        tmpSocket.off("hang-down");
+      }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Stream, socket]);
-
+  const [members, setMembers] = useState<string[]>([]);
   return (
     <>
-      <div className="relative ">
-        <video
-          className={clsx(
-            " left-0 top-0 bg-black ",
-            videoChanged && "z-10 absolute"
-          )}
-          autoPlay
-          muted
-          playsInline
-          width={videoChanged ? "100" : "auto"}
-          ref={myVideo}
-        ></video>
-        <video
-          className={clsx(
-            " left-0 top-0 bg-black",
-            !videoChanged && "z-10 absolute"
-          )}
-          autoPlay
-          playsInline
-          width={videoChanged ? "auto" : "100"}
-          ref={peerVideo}
-        ></video>
-        <BiTransfer
+      <div className="overflow-hidden">
+        <main className="flex w-full">
+          {" "}
+          <video
+            className={clsx(" bg-black relative")}
+            autoPlay
+            muted
+            playsInline
+            width={200}
+            style={{ height: "300px" }}
+            ref={myVideo}
+          >
+            <span className="absolute left-0 top-0 text-red-500 z-30">my</span>
+          </video>
+          <video
+            className={clsx(" bg-black")}
+            autoPlay
+            playsInline
+            width={200}
+            style={{ height: "300px" }}
+            ref={peerVideo}
+          ></video>
+        </main>
+        {/* <BiTransfer
           onClick={() => setVideoChanged(!videoChanged)}
           className="absolute cursor-pointer left-0 top-5 h-5 w-5 z-10"
-        />
+        /> */}
       </div>
-      <Button onClick={hangDown}>hangDown</Button>
-      <Button
-        onClick={() => {
-          pushStream(Stream!, socket.current!);
-        }}
-      >
-        link
-      </Button>
+      <div>
+        <Button onClick={hangDown}>hangDown</Button>
+        <Button
+          onClick={() => {
+            pushStream(Stream!, socket.current!);
+          }}
+        >
+          link
+        </Button>
+      </div>
     </>
   );
 }

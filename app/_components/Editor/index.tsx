@@ -1,5 +1,5 @@
 import { common, createLowlight } from "lowlight";
-import ReactMarkdown from "react-markdown";
+import { Markdown } from "../UI/markdown";
 import "./index.css";
 
 const lowlight = createLowlight(common);
@@ -41,8 +41,12 @@ const Editor = ({ content = "", onChange = () => {} }: EditorProps) => {
   // if (!editor) return null;
   return (
     <>
-      <div className=" prose w-full min-w-full p-2" id="editor">
-        <ReactMarkdown>{content}</ReactMarkdown>
+      <div
+        className="prose prose-code:none dark:prose-invert   w-full min-w-full p-2"
+        id="editor"
+      >
+        {/* <ReactMarkdown>{content}</ReactMarkdown> */}
+        <Markdown>{content}</Markdown>
       </div>
     </>
   );
