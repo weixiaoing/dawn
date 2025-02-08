@@ -17,7 +17,7 @@ export default function HomeTimeLine() {
   }, []);
   useEffect(() => {
     getTalksByPage({ page: 1, pageSize: 6 }).then((res) => {
-      setTalks(res.list);
+      setTalks(res?.list);
     });
   }, []);
 

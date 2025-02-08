@@ -1,8 +1,8 @@
 import Link from "next/link";
-import GitHub from "../../../public/Header/RiGithubLine.svg";
+// import { VscSignIn } from "react-icons/vs";
 import Avatar from "../UI/avatar";
 import Menu from "../UI/menu";
-
+import SignIn from "../signIn";
 export function Nav() {
   const menu = [
     { name: "博客", link: "/blog" },
@@ -33,7 +33,7 @@ export function Nav() {
         })}
       </Menu>
 
-      <a
+      {/* <a
         className="order-3 "
         href={"https://github.com/weixiaoing"}
         target="_blank"
@@ -41,7 +41,8 @@ export function Nav() {
         title="Dawn's GitHub"
       >
         <GitHub width={24} height={24} alt="Dawn" title="Dawn"></GitHub>
-      </a>
+      </a> */}
+      <SignIn className="order-3" />
     </nav>
   );
 }

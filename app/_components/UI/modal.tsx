@@ -23,7 +23,7 @@ export default function Modal({
     <>
       {visible && (
         <div
-          className=" overscroll-contain overflow-auto bg-gray-100/80  flex  justify-center fixed left-0 top-0 items-center z-50  w-full h-full"
+          className="bg-gray-100/80  overscroll-contain  flex justify-center  fixed left-0 top-0  z-50  w-full h-full  overflow-y-scroll"
           onClick={(e) => {
             e.preventDefault();
             if (e.target === e.currentTarget) {

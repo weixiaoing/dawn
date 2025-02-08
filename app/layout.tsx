@@ -1,4 +1,3 @@
-// import "@radix-ui/themes/styles.css";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
