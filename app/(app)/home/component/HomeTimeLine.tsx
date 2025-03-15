@@ -53,7 +53,11 @@ export default function HomeTimeLine() {
               </TimeLine>
             }
           </main>
-          <Link className="flex justify-end opacity-65" href={"/blog"}>
+          <Link
+            role="button"
+            className="flex justify-end opacity-65 text-sm hover:text-blue-400"
+            href={"/blog"}
+          >
             查看更多
           </Link>
         </div>

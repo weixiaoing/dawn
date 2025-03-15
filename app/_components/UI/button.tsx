@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ReactEventHandler } from "react";
+import { ButtonHTMLAttributes, ReactEventHandler } from "react";
 
 type props = {
   children?: React.ReactNode;
@@ -13,7 +13,7 @@ type props = {
   onCancel?: () => void;
   display?: string;
   border?: boolean;
-};
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({
   children,

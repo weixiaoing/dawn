@@ -1,5 +1,8 @@
 import clsx from "clsx";
+
+import { Theme } from "@radix-ui/themes";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { Montserrat } from "next/font/google";
 import { JotaiProvider } from "./_components/providers/JotaiProvider";
 import "./globals.css";
@@ -28,9 +31,14 @@ export default function RootLayout({
           "dark:bg-[rgb(48,48,48)] bg-[rgb(254,252,253)]"
         )}
       >
-        <ReactQueryProvider>
-          <JotaiProvider>{children}</JotaiProvider>
-        </ReactQueryProvider>
+        <Theme>
+          {" "}
+          <ReactQueryProvider>
+            <JotaiProvider>
+              <SessionProvider>{children}</SessionProvider>
+            </JotaiProvider>
+          </ReactQueryProvider>
+        </Theme>
       </body>
     </html>
   );

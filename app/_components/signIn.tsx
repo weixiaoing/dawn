@@ -1,18 +1,10 @@
 import clsx from "clsx";
+import { GoSignOut } from "react-icons/go";
 import { auth, signIn, signOut } from "~/lib/auth";
-// export async function UserAvatar() {
-//   const session = await auth();
-//   console.log(session);
-//   if (!session?.user) return null;
-//   return (
-//     <div>
-//       <img src={session.user.image} alt="User Avatar" />
-//     </div>
-//   );
-// }
+import Bubble from "./UI/Bubble";
+
 const SignIn = async ({ className }: { className?: string }) => {
   const session = await auth();
-  const status = session ? true : false;
   const signInHandler = async () => {
     "use server";
     await signIn("github");
@@ -31,11 +23,37 @@ const SignIn = async ({ className }: { className?: string }) => {
             <button type="submit">SigniIn</button>
           </form>
         ) : (
-          <form action={signOutHandler}>
-            <button type="submit">
-              <img className="size-10" src={session.user?.image || ""}></img>
-            </button>
-          </form>
+          <Bubble
+            layout={
+              <button className="rounded-full overflow-hidden" type="submit">
+                <img className="size-10" src={session.user?.image || ""}></img>
+              </button>
+            }
+          >
+            <div className="border w-[200px] p-2 flex flex-col">
+              <header className="text-[12px]">用户</header>
+              <main className="flex my-2 gap-2 items-center">
+                <img
+                  className="size-8 rounded-full  "
+                  src={session.user?.image}
+                  alt={session.user?.name}
+                />
+                <div>
+                  <h2 className="font-bold">{session.user?.name}</h2>
+                  <span className="text-[12px]">{session.user?.email}</span>
+                </div>
+              </main>
+              <form action={signOutHandler}>
+                <button
+                  type="submit"
+                  className="w-full text-sm font-bold p-2 flex items-center gap-2 hover:bg-slate-400/10"
+                >
+                  <GoSignOut className="flex items-center" />
+                  <span>退出</span>
+                </button>
+              </form>
+            </div>
+          </Bubble>
         )}
       </div>
     </>

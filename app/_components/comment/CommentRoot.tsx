@@ -7,35 +7,6 @@ import CommentBox from "./ComentBox";
 import Comments from "./Comments";
 import { CommentType } from "./type";
 
-// import { CommentBoxRoot } from "./CommentBox/Root";
-// import { Comments } from "./Comments";
-// import { CommentSkeleton } from "./CommentSkeleton";
-
-// export const CommentAreaRoot: FC<
-//   CommentBaseProps & {
-//     allowComment: boolean;
-//   }
-// > = (props) => {
-//   const { allowComment, refId } = props;
-//   // 兜下后端的数据，默认开
-//   if (!allowComment && typeof allowComment !== "undefined") {
-//     return (
-//       <p className="mt-[7.1rem] text-center text-xl font-medium">评论已关闭</p>
-//     );
-//   }
-
-//   return (
-//     <div className="relative mt-12">
-//       <CommentBoxRoot refId={refId} />
-
-//       <div className="h-12" />
-//       <LazyLoad placeholder={<CommentSkeleton />} triggerOnce>
-//         <Comments refId={refId} />
-//       </LazyLoad>
-//     </div>
-//   );
-// };
-
 export default function CommentRoot({
   room,
 }: {

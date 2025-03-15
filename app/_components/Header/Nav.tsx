@@ -12,11 +12,12 @@ export function Nav() {
     { name: "动态", link: "/talk" },
   ];
   return (
-    <nav className="p-4 flex justify-between max-w-[1024px] mx-auto ">
-      <Link className="order-2 sm:order-1" href={"/"}>
+    <nav className="p-4 flex justify-between  max-w-[1024px] mx-auto ">
+      <Link className="place-self-center" href={"/"}>
         <Avatar
           src="https://avatars.githubusercontent.com/u/93917549?v=4"
           alt="Dawn"
+          className="size-10"
         />
       </Link>
 
@@ -33,16 +34,7 @@ export function Nav() {
         })}
       </Menu>
 
-      {/* <a
-        className="order-3 "
-        href={"https://github.com/weixiaoing"}
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Dawn's GitHub"
-      >
-        <GitHub width={24} height={24} alt="Dawn" title="Dawn"></GitHub>
-      </a> */}
-      <SignIn className="order-3" />
+      <SignIn className="order-3 place-self-center" />
     </nav>
   );
 }
