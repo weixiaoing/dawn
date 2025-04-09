@@ -1,26 +1,30 @@
-import clsx from "clsx";
-import { GoSignOut } from "react-icons/go";
-import { auth, signIn, signOut } from "~/lib/auth";
-import Bubble from "./UI/Bubble";
+"use client"
+import clsx from "clsx"
+import { GoSignOut } from "react-icons/go"
+// import { auth, signIn, signOut } from "~/lib/auth"
+import Bubble from "./UI/Bubble"
+import { signInWithGitHub, signOut, useSession } from "@/utils/auth-client"
 
-const SignIn = async ({ className }: { className?: string }) => {
-  const session = await auth();
+const SignIn = ({ className }: { className?: string }) => {
+  const { data: session } = useSession()
   const signInHandler = async () => {
-    "use server";
-    await signIn("github");
-  };
+    // const { data, error } = await signInWithGitHub()
+    const data = await fetch(
+      "http://localhost:4000/api/auth/sign-in/social",
+      
+    ).then((res) => res.json())
+  }
 
   const signOutHandler = async () => {
-    "use server";
-    await signOut();
-  };
+    await signOut()
+  }
 
   return (
     <>
       <div className={clsx("flex items-center", className)}>
         {!session ? (
           <form action={signInHandler}>
-            <button type="submit">SigniIn</button>
+            <button type="submit">登录</button>
           </form>
         ) : (
           <Bubble
@@ -57,6 +61,6 @@ const SignIn = async ({ className }: { className?: string }) => {
         )}
       </div>
     </>
-  );
-};
-export default SignIn;
+  )
+}
+export default SignIn

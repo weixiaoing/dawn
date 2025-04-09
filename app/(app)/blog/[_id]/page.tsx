@@ -12,7 +12,7 @@ export default async function Article({ params }: { params: { _id: string } }) {
   const data = await getPost({
     _id: params._id,
   }).then((res) => {
-    return res.data?.[0];
+    return res.data;
   });
 
   // if (!data) return null;
@@ -36,14 +36,14 @@ export default async function Article({ params }: { params: { _id: string } }) {
                       </span>
                       <span>{dayjs(data?.date).format("YYYY年MM月DD日")}</span>
                     </li>
-                    {data.tags.length > 0 &&
-                      data.tags.map((item) => <li key={item}>#{item}</li>)}
+                    {[data?.tags].length > 0 &&
+                      data?.tags.map((item) => <li key={item}>#{item}</li>)}
                     <li>阅读量: {data?.watched + ""}</li>
                     <li>点赞数: {data?.like + ""}</li>
                   </div>
                   <Summary
                     postId={params._id}
-                    content={data.content || ""}
+                    content={data?.content || ""}
                   ></Summary>
                 </header>
               </>

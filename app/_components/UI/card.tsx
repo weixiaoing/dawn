@@ -36,7 +36,7 @@ export default function Card({
       {cover && <>{cover}</>}
       <div className="p-2 overflow-hidden break-words break-all space-y-4">
         {header && <header>{header}</header>}
-        {describtion && <div>{describtion}</div>}
+        {describtion && <div >{describtion}</div>}
         {children}
         {footer && <footer>{footer}</footer>}
       </div>

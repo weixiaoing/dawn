@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@plugin "daisyui"{
+  themes: light --default, dark --prefersdark;
+}
 :root {
   --theme-color: rgb(51, 180, 200);
   line-height: 1.5;
@@ -19,7 +21,7 @@
 body {
   margin: 0;
   /* place-items: center; */
-  width: max(400px, 90vw);
+  /* width: max(400px, 90vw); */
   min-height: 100vh;
   margin: 0 auto;
 }

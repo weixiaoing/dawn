@@ -33,12 +33,14 @@ const PostItem = (data: BlogData) => {
           </div>
         }
         describtion={
-          <div className="max-h-[100px]  ">
+          <div >
             <PostModal content={data.content!} postId={data._id}>
-              <p className="cursor-pointer leading-loose text-sm text-gray-800/90 dark:text-gray-200/90">
-                {data.content!.length > 300
+              <p className="cursor-pointer leading-loose  line-clamp-4 text-sm text-gray-800/90 dark:text-gray-200/90">
+                {/* {data.content!.length > 300
+
                   ? removeMarkdown(data.content!).slice(0, 300) + "..."
-                  : removeMarkdown(data.content!)}
+                  : removeMarkdown(data.content!)} */}
+                {removeMarkdown(data.content!)}
               </p>
             </PostModal>
           </div>

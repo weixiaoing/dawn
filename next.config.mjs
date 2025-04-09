@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 
+import { codeInspectorPlugin } from "code-inspector-plugin"
 const nextConfig = {
   webpack(config) {
     config.module.rules.push(
@@ -11,9 +12,11 @@ const nextConfig = {
         test: /\.md$/,
         use: "raw-loader",
       }
-    );
-    return config;
+    )
+    config.plugins.push(codeInspectorPlugin({ bundler: "webpack" }))
+    return config
   },
+
   images: {
     remotePatterns: [
       {
@@ -37,8 +40,8 @@ const nextConfig = {
         destination: "/home",
         permanent: false,
       },
-    ];
+    ]
   },
-};
+}
 
 export default nextConfig;

@@ -8,17 +8,19 @@ import { JotaiProvider } from "./_components/providers/JotaiProvider";
 import "./globals.css";
 import ReactQueryProvider from "./utils/Providers/ReactQueryProvider";
 
-const roboto_mono = Montserrat({ subsets: ["latin"], display: "swap" });
+import "@arco-design/web-react/dist/css/arco.css"
+
+const roboto_mono = Montserrat({ subsets: ["latin"], display: "swap" })
 
 export const metadata: Metadata = {
   title: "Dawnot Blog",
   description: "just do it!",
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -27,7 +29,7 @@ export default function RootLayout({
       </head>
       <body
         className={clsx(
-          roboto_mono.className,
+          // roboto_mono.className,
           "dark:bg-[rgb(48,48,48)] bg-[rgb(254,252,253)]"
         )}
       >
@@ -41,5 +43,5 @@ export default function RootLayout({
         </Theme>
       </body>
     </html>
-  );
+  )
 }

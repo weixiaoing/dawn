@@ -26,7 +26,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="flex mb-40 gap-4 container">
+          <div className="flex  mb-40 gap-4 mx-auto">
             <HomeTimeLine />
           </div>
         </main>

@@ -14,17 +14,16 @@ const SocketProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     // 仅在客户端创建 Socket 连接
-    if (typeof window !== "undefined") {
       const newSocket = io(url, {
         reconnection: true,
         reconnectionAttempts: 5,
       });
+      newSocket.emit("init");
       setSocket(newSocket);
-
       return () => {
         newSocket.disconnect();
       };
-    }
+    
   }, [url]);
 
   return (
